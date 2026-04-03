@@ -24,13 +24,15 @@ html,body{height:100%;background:var(--bg);color:var(--tx);font-family:'Tajawal'
 .sc{position:absolute;inset:0;display:none;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .sc.on{display:flex}
 
-/* HOME */
-#home{background:radial-gradient(ellipse 130% 50% at 50% 0%,rgba(136,85,238,.2),transparent),radial-gradient(ellipse 80% 40% at 90% 100%,rgba(15,212,180,.1),transparent),var(--bg);align-items:center;justify-content:space-between;padding:36px 20px 28px;min-height:100vh}
+/* AD BANNER */
+.ad-banner{background:var(--c3);border:1px solid var(--br);border-radius:10px;padding:8px 12px;margin:6px 14px;text-align:center;font-size:11px;color:var(--mu);flex-shrink:0;min-height:50px;display:flex;align-items:center;justify-content:center}
+
+#home{background:radial-gradient(ellipse 130% 50% at 50% 0%,rgba(136,85,238,.2),transparent),radial-gradient(ellipse 80% 40% at 90% 100%,rgba(15,212,180,.1),transparent),var(--bg);align-items:center;justify-content:space-between;padding:36px 20px 20px;min-height:100vh}
 .yb-logo{display:flex;align-items:center;gap:10px;align-self:flex-start}
 .yb-ico{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--pu),var(--teal));display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:900;color:#fff;font-family:serif;box-shadow:0 0 20px rgba(136,85,238,.3)}
-.home-mid{display:flex;flex-direction:column;align-items:center;gap:18px;flex:1;justify-content:center;padding:16px 0;width:100%}
+.home-mid{display:flex;flex-direction:column;align-items:center;gap:16px;flex:1;justify-content:center;padding:12px 0;width:100%}
 .game-title{font-size:42px;font-weight:900;text-align:center;letter-spacing:-2px;background:linear-gradient(135deg,#fff 20%,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hcard{border-radius:18px;padding:17px 18px;cursor:pointer;display:flex;align-items:center;gap:13px;border:1px solid transparent;transition:transform .12s;width:100%}
+.hcard{border-radius:18px;padding:17px 18px;cursor:pointer;display:flex;align-items:center;gap:13px;border:1px solid transparent;transition:transform .12s;width:100%;position:relative}
 .hcard:active{transform:scale(.96)}
 .hcard.c1{background:rgba(240,200,74,.08);border-color:rgba(240,200,74,.2)}
 .hcard.c2{background:rgba(232,56,136,.08);border-color:rgba(232,56,136,.2)}
@@ -39,8 +41,8 @@ html,body{height:100%;background:var(--bg);color:var(--tx);font-family:'Tajawal'
 .c1 .hc-ico{background:rgba(240,200,74,.12)}
 .c2 .hc-ico{background:rgba(232,56,136,.12)}
 .c3 .hc-ico{background:rgba(15,212,180,.1)}
+.ntg{position:absolute;top:8px;left:38px;background:var(--pink);color:#fff;font-size:9px;font-weight:800;padding:2px 7px;border-radius:99px}
 
-/* COMMON */
 .topbar{display:flex;align-items:center;gap:10px;padding:13px 14px 0;flex-shrink:0}
 .bk{width:40px;height:40px;background:var(--c2);border:1px solid var(--br);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:20px;flex-shrink:0;transition:all .12s}
 .bk:active{transform:scale(.9)}
@@ -64,22 +66,17 @@ textarea.inp{resize:none}
 .bgr{background:linear-gradient(135deg,var(--gr),var(--gr2));color:#fff}
 .bout{background:transparent;border:1.5px solid var(--br);color:var(--tx)}
 
-/* ROOM BOX */
 .rbox{background:var(--c2);border:2px dashed rgba(240,200,74,.3);border-radius:18px;padding:18px;text-align:center}
 .rcode{font-size:46px;font-weight:900;color:var(--gold);letter-spacing:12px;font-family:monospace;margin:8px 0}
 .codein{background:var(--c2);border:2px solid var(--br);border-radius:18px;padding:16px;text-align:center;font-size:36px;font-weight:900;letter-spacing:10px;color:var(--gold);font-family:monospace;outline:none;width:100%;transition:border-color .2s}
 .codein:focus{border-color:var(--gold)}
-
-/* QR */
 .qr-wrap{background:#fff;border-radius:14px;padding:12px;display:inline-block;margin-top:10px}
 
-/* PLAYERS */
 .prow{background:var(--c2);border:1px solid var(--br);border-radius:12px;padding:11px 14px;display:flex;align-items:center;gap:10px;margin-bottom:8px;animation:fu .3s ease}
 .pav{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
 .pn{font-weight:700;font-size:14px;flex:1}
 .ph{font-size:10px;color:var(--gold);font-weight:700}
 
-/* CATS */
 .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 14px 14px}
 .cat-all{grid-column:1/-1;background:var(--c2);border:1.5px solid var(--br2);border-radius:12px;padding:10px;text-align:center;cursor:pointer;font-size:13px;font-weight:800;transition:all .12s}
 .cat-all.on{border-color:var(--gold);color:var(--gold)}
@@ -89,7 +86,6 @@ textarea.inp{resize:none}
 .catck{position:absolute;top:5px;left:5px;width:16px;height:16px;border-radius:5px;background:var(--c3);border:1.5px solid var(--br);display:flex;align-items:center;justify-content:center;font-size:9px}
 .catc.on .catck{background:var(--gr);border-color:var(--gr);color:#fff}
 
-/* GAME UI */
 .progwrap{padding:0 14px;flex-shrink:0;margin-top:6px}
 .progtop{display:flex;justify-content:space-between;font-size:11px;color:var(--mu);margin-bottom:4px}
 .prog{height:5px;background:var(--c3);border-radius:99px;overflow:hidden}
@@ -99,9 +95,14 @@ textarea.inp{resize:none}
 .lsp{display:inline-flex;align-items:center;gap:4px;background:var(--c3);border-radius:8px;padding:4px 9px;margin-left:5px;margin-bottom:4px}
 .lsn{font-size:12px;font-weight:700}
 .lspt{font-size:12px;font-weight:900;color:var(--gold)}
+
 .qcard{background:var(--c2);border:1px solid var(--br);border-radius:17px;padding:16px;animation:fu .3s ease}
 .qtag{display:inline-block;font-size:11px;padding:3px 9px;border-radius:99px;margin-bottom:8px;font-weight:700}
 .qtxt{font-size:17px;font-weight:800;line-height:1.5}
+/* question image */
+.qimg{width:100%;max-height:160px;object-fit:cover;border-radius:10px;margin-bottom:10px;display:none}
+.qimg.show{display:block}
+
 .vopt{background:var(--c2);border:1.5px solid var(--br);border-radius:14px;padding:13px 15px;cursor:pointer;font-size:14px;font-weight:600;display:flex;align-items:center;gap:10px;width:100%;text-align:right;transition:all .12s;margin-bottom:8px}
 .vopt:active{transform:scale(.98)}
 .vopt.picked{border-color:var(--teal);background:rgba(15,212,180,.07)}
@@ -111,13 +112,13 @@ textarea.inp{resize:none}
 .vopt.picked .vlet{background:var(--teal);color:#000}
 .vopt.rv-ok .vlet{background:var(--gr);color:#fff}
 .vopt.rv-no .vlet{background:var(--rd);color:#fff}
+
 .rrow{background:var(--c2);border:1px solid var(--br);border-radius:13px;padding:12px 14px;margin-bottom:9px;animation:fu .3s ease}
 .sbrow{background:var(--c2);border:1px solid var(--br);border-radius:13px;padding:12px 14px;display:flex;align-items:center;gap:12px;margin-bottom:9px;animation:fu .35s ease}
 .stickyBtn{position:sticky;bottom:0;background:var(--bg);padding:12px 14px;border-top:1px solid var(--br);flex-shrink:0}
 .wt{padding:28px;display:flex;flex-direction:column;align-items:center;gap:10px}
 .spin{width:40px;height:40px;border:3px solid var(--br);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite}
 
-/* DRAW */
 #draw-game{padding:10px;gap:8px}
 .dgtop{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .tring{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0}
@@ -141,14 +142,6 @@ textarea.inp{resize:none}
 .fn{font-weight:700;color:var(--teal)}.ft{color:var(--mu)}
 .fc .ft{color:var(--gr);font-weight:700}
 
-/* TOAST */
-.toast{position:fixed;top:14px;left:50%;transform:translateX(-50%) translateY(-80px);background:var(--c3);border:1px solid var(--br2);border-radius:11px;padding:9px 16px;font-size:13px;font-weight:600;z-index:99;transition:transform .3s;white-space:nowrap;pointer-events:none;box-shadow:0 8px 28px rgba(0,0,0,.5)}
-.toast.show{transform:translateX(-50%) translateY(0)}
-.ovl{position:fixed;inset:0;background:rgba(14,14,26,.9);display:flex;align-items:center;justify-content:center;z-index:50;opacity:0;pointer-events:none;transition:opacity .3s}
-.ovl.show{opacity:1;pointer-events:all}
-.obox{background:var(--c2);border:1px solid var(--br2);border-radius:20px;padding:26px 22px;text-align:center;max-width:280px;width:90%;animation:pop .4s cubic-bezier(.34,1.56,.64,1)}
-
-/* JUDGE */
 .arw{background:var(--c2);border:1px solid var(--br);border-radius:13px;padding:12px 14px;display:flex;align-items:center;gap:9px;margin-bottom:9px}
 .arn{font-size:11px;color:var(--mu);min-width:50px}
 .ara{flex:1;font-size:13px;font-weight:700}
@@ -162,7 +155,12 @@ textarea.inp{resize:none}
 .mu{color:var(--mu);font-size:13px}
 .center{text-align:center}
 .fcol{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:14px;padding:22px;min-height:100vh}
-.ntg{position:absolute;top:8px;left:38px;background:var(--pink);color:#fff;font-size:9px;font-weight:800;padding:2px 7px;border-radius:99px}
+
+.toast{position:fixed;top:14px;left:50%;transform:translateX(-50%) translateY(-80px);background:var(--c3);border:1px solid var(--br2);border-radius:11px;padding:9px 16px;font-size:13px;font-weight:600;z-index:99;transition:transform .3s;white-space:nowrap;pointer-events:none;box-shadow:0 8px 28px rgba(0,0,0,.5)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.ovl{position:fixed;inset:0;background:rgba(14,14,26,.9);display:flex;align-items:center;justify-content:center;z-index:50;opacity:0;pointer-events:none;transition:opacity .3s}
+.ovl.show{opacity:1;pointer-events:all}
+.obox{background:var(--c2);border:1px solid var(--br2);border-radius:20px;padding:26px 22px;text-align:center;max-width:280px;width:90%;animation:pop .4s cubic-bezier(.34,1.56,.64,1)}
 
 @keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pop{0%{transform:scale(0);opacity:0}65%{transform:scale(1.07)}100%{transform:scale(1);opacity:1}}
@@ -174,25 +172,17 @@ textarea.inp{resize:none}
 <!-- HOME -->
 <div id="home" class="sc on">
   <div class="yb-logo"><div class="yb-ico">YB</div><div><div style="font-size:13px;font-weight:800">Yassine Belalia</div><div style="font-size:10px;color:var(--mu)">GAMES</div></div></div>
+  <!-- AD BANNER HOME -->
+  <div class="ad-banner" style="width:100%;margin:8px 0">📢 مكان الإعلان — Google AdSense</div>
   <div class="home-mid">
     <div style="text-align:center">
       <div class="game-title">ذكي فيكم</div>
       <div style="color:var(--mu);font-size:14px;margin-top:5px">العب مع أصدقاءك أون لاين 🧠</div>
     </div>
     <div style="width:100%;display:flex;flex-direction:column;gap:11px">
-      <div class="hcard c1" onclick="go('bl-lobby')">
-        <div class="hc-ico">🃏</div>
-        <div><div style="font-size:17px;font-weight:800">لعبة الخداع</div><div style="font-size:12px;color:var(--mu);margin-top:2px">اكتب واخدع وصوّت</div></div>
-      </div>
-      <div class="hcard c2" style="position:relative" onclick="go('ju-lobby')">
-        <div class="hc-ico">👑</div>
-        <div><div style="font-size:17px;font-weight:800">أنا الحكم</div><div style="font-size:12px;color:var(--mu);margin-top:2px">أنت تكتب وتعطي النقاط</div></div>
-        <div class="ntg">جديد</div>
-      </div>
-      <div class="hcard c3" onclick="go('dr-lobby')">
-        <div class="hc-ico">🎨</div>
-        <div><div style="font-size:17px;font-weight:800">لعبة الرسم</div><div style="font-size:12px;color:var(--mu);margin-top:2px">ارسم وأصدقاءك يخمنون</div></div>
-      </div>
+      <div class="hcard c1" onclick="go('bl-lobby')"><div class="hc-ico">🃏</div><div><div style="font-size:17px;font-weight:800">لعبة الخداع</div><div style="font-size:12px;color:var(--mu);margin-top:2px">اكتب واخدع وصوّت</div></div></div>
+      <div class="hcard c2" onclick="go('ju-lobby')"><div class="hc-ico">👑</div><div><div style="font-size:17px;font-weight:800">أنا الحكم</div><div style="font-size:12px;color:var(--mu);margin-top:2px">أنت تكتب وتعطي النقاط</div></div><div class="ntg">جديد</div></div>
+      <div class="hcard c3" onclick="go('dr-lobby')"><div class="hc-ico">🎨</div><div><div style="font-size:17px;font-weight:800">لعبة الرسم</div><div style="font-size:12px;color:var(--mu);margin-top:2px">ارسم وأصدقاءك يخمنون</div></div></div>
     </div>
   </div>
   <div style="text-align:center"><div style="font-size:11px;color:var(--mu)">by Yassine Belalia • YB Games</div></div>
@@ -201,7 +191,8 @@ textarea.inp{resize:none}
 <!-- BLUFF LOBBY -->
 <div id="bl-lobby" class="sc">
   <div class="topbar"><div class="bk" onclick="go('home')">›</div><div class="tt">🃏 لعبة الخداع</div></div>
-  <div class="p14 g12" style="margin-top:12px">
+  <div class="ad-banner">📢 إعلان</div>
+  <div class="p14 g12">
     <div class="hcard c1" onclick="go('bl-create')"><div class="hc-ico" style="width:42px;height:42px;font-size:20px">➕</div><div><div style="font-size:16px;font-weight:800">أنشئ غرفة</div><div style="font-size:12px;color:var(--mu)">اختر فئات وشارك الكود</div></div></div>
     <div class="hcard" style="background:rgba(72,136,240,.08);border-color:rgba(72,136,240,.2)" onclick="go('bl-join')"><div class="hc-ico" style="width:42px;height:42px;font-size:20px;background:rgba(72,136,240,.12)">🔑</div><div><div style="font-size:16px;font-weight:800">انضم لغرفة</div><div style="font-size:12px;color:var(--mu)">أدخل كود الغرفة</div></div></div>
   </div>
@@ -211,20 +202,13 @@ textarea.inp{resize:none}
 <div id="bl-create" class="sc">
   <div class="topbar"><div class="bk" onclick="go('bl-lobby')">›</div><div class="tt">إنشاء غرفة</div></div>
   <div class="p14 g8">
-    <div class="rbox">
-      <div style="font-size:11px;color:var(--mu);margin-bottom:5px">كود غرفتك</div>
-      <div class="rcode" id="bCode">----</div>
-      <div style="font-size:11px;color:var(--mu)">📤 شارك مع أصدقاءك</div>
-      <div class="qr-wrap" id="bQR"></div>
-    </div>
+    <div class="rbox"><div style="font-size:11px;color:var(--mu);margin-bottom:5px">كود غرفتك</div><div class="rcode" id="bCode">----</div><div style="font-size:11px;color:var(--mu)">📤 شارك مع أصدقاءك</div><div class="qr-wrap" id="bQR"></div></div>
     <div><span class="lbl">اسمك</span><input class="inp" id="bHostName" placeholder="مثال: يوسف"></div>
     <div style="font-size:12px;color:var(--mu);text-align:center">✅ اختر فئة أو أكثر</div>
   </div>
   <div class="cat-grid" id="bCatGrid"><div class="cat-all" id="bAllBtn" onclick="toggleAll()">🎲 اختر الكل</div></div>
   <div class="p14 g8">
-    <div><span class="lbl">عدد الأسئلة</span>
-      <select class="inp" id="bQCnt"><option value="5">5</option><option value="8">8</option><option value="10" selected>10</option><option value="15">15</option></select>
-    </div>
+    <div><span class="lbl">عدد الأسئلة</span><select class="inp" id="bQCnt"><option value="5">5</option><option value="8">8</option><option value="10" selected>10</option><option value="15">15</option><option value="20">20</option></select></div>
     <button class="btn bgr" onclick="openBWait()">🚀 افتح الغرفة</button>
   </div>
 </div>
@@ -242,13 +226,9 @@ textarea.inp{resize:none}
 <!-- BLUFF WAIT -->
 <div id="bl-wait" class="sc">
   <div class="topbar"><div class="bk" onclick="go('bl-lobby')">›</div><div class="tt">غرفة الانتظار</div></div>
+  <div class="ad-banner">📢 إعلان</div>
   <div class="fcol">
-    <div class="center">
-      <div style="font-size:34px;margin-bottom:6px">⏳</div>
-      <div style="font-size:16px;font-weight:800">في انتظار اللاعبين</div>
-      <div class="mu" style="margin-top:4px">كود: <span style="color:var(--gold);font-weight:900;letter-spacing:4px" id="bWCode"></span></div>
-      <div class="qr-wrap" id="bWQR" style="margin-top:10px"></div>
-    </div>
+    <div class="center"><div style="font-size:34px;margin-bottom:6px">⏳</div><div style="font-size:16px;font-weight:800">في انتظار اللاعبين</div><div class="mu" style="margin-top:4px">كود: <span style="color:var(--gold);font-weight:900;letter-spacing:4px" id="bWCode"></span></div><div class="qr-wrap" id="bWQR" style="margin-top:8px"></div></div>
     <div id="bPList" style="width:100%;max-width:340px"></div>
     <div style="width:100%;max-width:340px" class="g8">
       <button class="btn bgold" id="bStBtn" onclick="startBluff()" style="display:none">▶️ ابدأ اللعبة</button>
@@ -259,16 +239,15 @@ textarea.inp{resize:none}
 
 <!-- BLUFF WRITE -->
 <div id="bl-write" class="sc">
-  <div class="topbar" style="padding-bottom:0">
-    <div style="flex:1">
-      <div class="progtop"><span>سؤال <span id="bwN">1</span>/<span id="bwT">10</span></span><span style="color:var(--gold);font-weight:800" id="bwMyPts">0 ⭐</span></div>
-      <div class="prog"><div class="progf" id="bwProg" style="width:10%"></div></div>
-    </div>
-  </div>
+  <div class="topbar" style="padding-bottom:0"><div style="flex:1"><div class="progtop"><span>سؤال <span id="bwN">1</span>/<span id="bwT">10</span></span><span style="color:var(--gold);font-weight:800" id="bwMyPts">0 ⭐</span></div><div class="prog"><div class="progf" id="bwProg" style="width:10%"></div></div></div></div>
   <div class="lsbar"><div class="lsl">📊 النقاط</div><div id="bwLS" style="display:flex;flex-wrap:wrap"></div></div>
   <div class="p14 g12">
     <div style="display:inline-flex;align-items:center;gap:6px;background:var(--c3);border:1px solid var(--br);border-radius:99px;padding:5px 12px;font-size:11px;font-weight:700;color:var(--mu)" id="bwBdg">✍️ اكتب إجابتك</div>
-    <div class="qcard"><div class="qtag" id="bwTag"></div><div class="qtxt" id="bwQ"></div></div>
+    <div class="qcard">
+      <div class="qtag" id="bwTag"></div>
+      <img class="qimg" id="bwImg" src="" alt="">
+      <div class="qtxt" id="bwQ"></div>
+    </div>
     <div id="bwForm" class="g8">
       <div><span class="lbl" id="bwLbl">إجابتك</span><textarea class="inp" id="bwInp" rows="3" placeholder="اكتب هنا..."></textarea></div>
       <button class="btn bgold" id="bwBtn" onclick="submitWrite()">✅ تأكيد</button>
@@ -292,11 +271,9 @@ textarea.inp{resize:none}
 <!-- BLUFF REVEAL -->
 <div id="bl-reveal" class="sc">
   <div class="topbar"><div class="tt">🎭 النتيجة</div></div>
+  <div class="ad-banner">📢 إعلان</div>
   <div class="p14">
-    <div class="qcard" style="margin-bottom:12px">
-      <div style="font-size:11px;color:var(--gr);font-weight:700;margin-bottom:5px">✅ الإجابة الصحيحة</div>
-      <div class="qtxt" id="brCorr" style="color:var(--gr)"></div>
-    </div>
+    <div class="qcard" style="margin-bottom:12px"><div style="font-size:11px;color:var(--gr);font-weight:700;margin-bottom:5px">✅ الإجابة الصحيحة</div><div class="qtxt" id="brCorr" style="color:var(--gr)"></div></div>
     <div id="brList"></div>
   </div>
   <div class="stickyBtn"><button class="btn bgold" id="brBtn" onclick="handleReveal()">➡️ السؤال التالي</button></div>
@@ -304,6 +281,7 @@ textarea.inp{resize:none}
 
 <!-- BLUFF FINAL -->
 <div id="bl-final" class="sc">
+  <div class="ad-banner" style="margin:14px">📢 إعلان</div>
   <div class="fcol">
     <div style="font-size:44px">🏆</div>
     <div style="font-size:21px;font-weight:900">النتائج النهائية</div>
@@ -318,7 +296,8 @@ textarea.inp{resize:none}
 <!-- JUDGE LOBBY -->
 <div id="ju-lobby" class="sc">
   <div class="topbar"><div class="bk" onclick="go('home')">›</div><div class="tt">👑 أنا الحكم</div></div>
-  <div class="p14 g12" style="margin-top:12px">
+  <div class="ad-banner">📢 إعلان</div>
+  <div class="p14 g12">
     <div class="hcard c2" onclick="go('ju-create')"><div class="hc-ico" style="width:42px;height:42px;font-size:20px">👑</div><div><div style="font-size:16px;font-weight:800">كن الحكم</div><div style="font-size:12px;color:var(--mu)">أنت تكتب وتعطي النقاط</div></div></div>
     <div class="hcard" style="background:rgba(72,136,240,.08);border-color:rgba(72,136,240,.2)" onclick="go('ju-join')"><div class="hc-ico" style="width:42px;height:42px;font-size:20px;background:rgba(72,136,240,.12)">🔑</div><div><div style="font-size:16px;font-weight:800">انضم كلاعب</div><div style="font-size:12px;color:var(--mu)">أجب على أسئلة الحكم</div></div></div>
   </div>
@@ -397,7 +376,8 @@ textarea.inp{resize:none}
 <!-- DRAW LOBBY -->
 <div id="dr-lobby" class="sc">
   <div class="topbar"><div class="bk" onclick="go('home')">›</div><div class="tt">🎨 لعبة الرسم</div></div>
-  <div class="p14 g12" style="margin-top:12px">
+  <div class="ad-banner">📢 إعلان</div>
+  <div class="p14 g12">
     <div class="hcard c3" onclick="createDraw()"><div class="hc-ico" style="width:42px;height:42px;font-size:20px">🎨</div><div><div style="font-size:16px;font-weight:800">أنشئ غرفة</div><div style="font-size:12px;color:var(--mu)">أنت من يرسم أولاً</div></div></div>
     <div class="hcard" style="background:rgba(232,56,136,.08);border-color:rgba(232,56,136,.2)" onclick="go('dr-join')"><div class="hc-ico" style="width:42px;height:42px;font-size:20px;background:rgba(232,56,136,.1)">🔑</div><div><div style="font-size:16px;font-weight:800">انضم لغرفة</div><div style="font-size:12px;color:var(--mu)">خمّن رسومات أصدقاءك</div></div></div>
   </div>
@@ -417,7 +397,7 @@ textarea.inp{resize:none}
 <div id="dr-wait" class="sc">
   <div class="topbar"><div class="bk" onclick="go('dr-lobby')">›</div><div class="tt">غرفة انتظار</div></div>
   <div class="fcol">
-    <div class="center"><div style="font-size:34px;margin-bottom:6px">🎨</div><div style="font-size:16px;font-weight:800">في انتظار اللاعبين</div><div class="mu" style="margin-top:4px">كود: <span style="color:var(--teal);font-weight:900;letter-spacing:4px" id="dWCode"></span></div><div class="qr-wrap" id="dQR" style="margin-top:10px"></div></div>
+    <div class="center"><div style="font-size:34px;margin-bottom:6px">🎨</div><div style="font-size:16px;font-weight:800">في انتظار اللاعبين</div><div class="mu" style="margin-top:4px">كود: <span style="color:var(--teal);font-weight:900;letter-spacing:4px" id="dWCode"></span></div><div class="qr-wrap" id="dQR" style="margin-top:8px"></div></div>
     <div id="dPList" style="width:100%;max-width:340px"></div>
     <div style="width:100%;max-width:340px" class="g8">
       <button class="btn bteal" id="dStBtn" onclick="startDraw()">▶️ ابدأ</button>
@@ -444,22 +424,18 @@ textarea.inp{resize:none}
     <div class="cd" style="background:#3888f0" onclick="dCol('#3888f0',this)"></div>
     <div class="cd" style="background:#8855ee" onclick="dCol('#8855ee',this)"></div>
     <div class="tsep"></div>
-    <div class="szb on" onclick="dSz(4,this)">S</div>
-    <div class="szb" onclick="dSz(9,this)">M</div>
-    <div class="szb" onclick="dSz(18,this)">L</div>
+    <div class="szb on" onclick="dSz(4,this)">S</div><div class="szb" onclick="dSz(9,this)">M</div><div class="szb" onclick="dSz(18,this)">L</div>
     <div class="tsep"></div>
     <div class="erb" id="erBtn" onclick="dErase()">⬜</div>
     <div class="clb" onclick="dClear()">🗑️</div>
   </div>
-  <div class="grow" id="gRow">
-    <input class="ginp" id="gInp" placeholder="خمّن الكلمة...">
-    <button class="gbtn" onclick="dGuess()">إرسال</button>
-  </div>
+  <div class="grow" id="gRow"><input class="ginp" id="gInp" placeholder="خمّن الكلمة..."><button class="gbtn" onclick="dGuess()">إرسال</button></div>
   <div class="feed" id="dFeed"></div>
 </div>
 
 <!-- DRAW SCORES -->
 <div id="dr-scores" class="sc">
+  <div class="ad-banner" style="margin:14px">📢 إعلان</div>
   <div class="fcol">
     <div style="font-size:44px">🎨</div>
     <div style="font-size:20px;font-weight:900">نتائج الرسم</div>
@@ -475,7 +451,6 @@ textarea.inp{resize:none}
 <div class="ovl" id="ovl"><div class="obox"><div style="font-size:46px;margin-bottom:8px" id="oEm"></div><div style="font-size:19px;font-weight:900;margin-bottom:5px" id="oTi"></div><div style="font-size:13px;color:var(--mu)" id="oSu"></div></div></div>
 
 <script>
-// ══ SOCKET ══
 const socket=io();
 let myId='',myName='',myRoom='',isHost=false;
 let bQs=[],bIdx=0,bScores={},bPhase='init';
@@ -485,7 +460,6 @@ let jRoom='',jQ_='',jAns_='',jHint_='',jScores={};
 let dRoom='',dRound=1,dTR=3,dIsD=true,dWord='',dTmr=null,dTime=60;
 let dColor='#ffffff',dSize=4,dErs=false,dAct=false,dLx=0,dLy=0;
 
-// ══ UTILS ══
 const $=id=>document.getElementById(id);
 function go(id){document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));$(id).classList.add('on');window.scrollTo(0,0);if(id==='draw-game')setTimeout(cvResize,100);}
 function toast(m,d=2200){const t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),d);}
@@ -493,46 +467,93 @@ function showOvl(em,ti,su,cb,ms=1800){$('oEm').textContent=em;$('oTi').textConte
 function rnd4(){return Math.floor(1000+Math.random()*9000)+'';}
 function shuffle(a){return[...a].sort(()=>Math.random()-.5);}
 function cpCode(t){const codes={b:myRoom,j:jRoom,d:dRoom};if(navigator.clipboard)navigator.clipboard.writeText(codes[t]);toast('📋 كود: '+codes[t]);}
+function makeQR(elId,text){const el=$(elId);if(!el)return;el.innerHTML='';try{new QRCode(el,{text,width:120,height:120,colorDark:'#000',colorLight:'#fff'});}catch(e){}}
 
-function makeQR(elId,text){
-  const el=$(elId);if(!el)return;
-  el.innerHTML='';
-  try{new QRCode(el,{text,width:120,height:120,colorDark:'#000',colorLight:'#fff'});}catch(e){}
-}
-
+// ══ AI CHECK — أخطاء كتابية فقط ══
 function aiCheck(u,c){
-  const n=s=>s.trim().toLowerCase().replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/\s+/g,' ');
-  const un=n(u),cn=n(c);
+  if(!u||!c)return{ok:false};
+  const norm=s=>s.trim().toLowerCase()
+    .replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي')
+    .replace(/\s+/g,' ').replace(/[.,،؟?!]/g,'');
+  const un=norm(u),cn=norm(c);
   if(!un)return{ok:false};
-  if(un===cn)return{ok:true,note:'✅ صحيح تماماً'};
-  if(cn.includes(un)||un.includes(cn))return{ok:true,note:'✅ مقبولة'};
-  const uw=un.split(' '),cw=cn.split(' ');
-  if(uw.some(w=>w.length>2&&cw.some(x=>x.includes(w)||w.includes(x))))return{ok:true,note:'✅ قريبة وصحيحة'};
+  // مطابقة تامة
+  if(un===cn)return{ok:true,note:'✅ صحيح'};
+  // تحقق من الأخطاء الكتابية البسيطة فقط — الفرق حرف أو حرفين
+  if(Math.abs(un.length-cn.length)<=2){
+    let diff=0;
+    const shorter=un.length<cn.length?un:cn;
+    const longer=un.length<cn.length?cn:un;
+    for(let i=0,j=0;i<longer.length&&j<shorter.length;){
+      if(longer[i]!==shorter[j]){diff++;i++;}else{i++;j++;}
+    }
+    diff+=longer.length-shorter.length;
+    if(diff<=2)return{ok:true,note:'✅ خطأ كتابي بسيط'};
+  }
+  // لا نقبل 10 بدل 100 — فرق رقمي كبير
+  const uNum=parseFloat(un.replace(/[^0-9.]/g,''));
+  const cNum=parseFloat(cn.replace(/[^0-9.]/g,''));
+  if(!isNaN(uNum)&&!isNaN(cNum)){
+    // فقط إذا كانا متساويين تماماً أو فرق 1%
+    if(Math.abs(uNum-cNum)/Math.max(cNum,1)>0.05)return{ok:false};
+    if(uNum===cNum)return{ok:true,note:'✅ صحيح'};
+  }
   return{ok:false};
 }
 
-// ══ CATEGORIES ══
+// ══ CATEGORIES — 20+ أسئلة لكل فئة ══
 const CATS={
-  culture:{n:'ثقافة عامة',e:'🌍',c:'#f0c84a',b:'rgba(240,200,74,.15)',qs:[{q:'ما عاصمة فرنسا؟',a:'باريس'},{q:'من رسم الموناليزا؟',a:'ليوناردو دافنشي'},{q:'كم قارة في العالم؟',a:'7'},{q:'ما أطول نهر في العالم؟',a:'النيل'},{q:'أصغر دولة في العالم؟',a:'الفاتيكان'},{q:'أكبر محيط في العالم؟',a:'الهادئ'},{q:'عاصمة اليابان؟',a:'طوكيو'},{q:'من كتب هاملت؟',a:'شكسبير'},{q:'في أي بلد بنيت الأهرامات؟',a:'مصر'},{q:'كم سنة في القرن؟',a:'100'}]},
-  religion:{n:'دين وإسلاميات',e:'☪️',c:'#20cc60',b:'rgba(32,204,96,.15)',qs:[{q:'كم عدد أركان الإسلام؟',a:'5'},{q:'أول سورة في القرآن؟',a:'الفاتحة'},{q:'كم آية في سورة الفاتحة؟',a:'7'},{q:'في أي شهر نزل القرآن؟',a:'رمضان'},{q:'عدد أسماء الله الحسنى؟',a:'99'},{q:'أول الأنبياء؟',a:'آدم عليه السلام'},{q:'مكان مولد النبي ﷺ؟',a:'مكة المكرمة'},{q:'كم ركعة في الظهر؟',a:'4'},{q:'عدد صلوات اليوم؟',a:'5'},{q:'ما الحج بالنسبة للقادر؟',a:'فرض'}]},
-  football:{n:'كرة القدم',e:'⚽',c:'#3888f0',b:'rgba(56,136,240,.15)',qs:[{q:'كم لاعب في فريق كرة القدم؟',a:'11'},{q:'من فاز بكأس العالم 2022؟',a:'الأرجنتين'},{q:'كم نقطة للفوز في الدوري؟',a:'3'},{q:'أي بلد استضاف أول كأس عالم؟',a:'أوروغواي'},{q:'ما مدة مباراة كرة القدم؟',a:'90 دقيقة'},{q:'كم مرة فازت البرازيل؟',a:'5 مرات'},{q:'أكثر هداف في تاريخ كأس العالم؟',a:'كلوزه'},{q:'من فاز بكأس العالم 2018؟',a:'فرنسا'},{q:'أكثر نادٍ بدوري الأبطال؟',a:'ريال مدريد'},{q:'من فاز بيورو 2020؟',a:'إيطاليا'}]},
-  sports:{n:'رياضة عامة',e:'🏅',c:'#f59e0b',b:'rgba(245,158,11,.15)',qs:[{q:'مسافة سباق الماراثون؟',a:'42.195 كم'},{q:'عدد لاعبي كرة السلة؟',a:'5'},{q:'رياضة تستخدم مضرباً وريشة؟',a:'بادمنتون'},{q:'كم نقطة ثلاثية في كرة السلة؟',a:'3'},{q:'عدد لاعبي الكرة الطائرة؟',a:'6'},{q:'أكثر رياضي بميداليات أولمبية؟',a:'مايكل فيلبس'},{q:'أي رياضة تجمع سباحة وركض ودراجة؟',a:'الترياتلون'},{q:'أقدم رياضة أولمبية؟',a:'المصارعة'},{q:'كم جولة في الملاكمة؟',a:'12'},{q:'من فاز بكأس أمم أفريقيا 2021؟',a:'السنغال'}]},
-  science:{n:'علوم وتقنية',e:'🔬',c:'#8855ee',b:'rgba(136,85,238,.15)',qs:[{q:'الرمز الكيميائي للذهب؟',a:'Au'},{q:'كم سرعة الضوء؟',a:'300000 كم/ث'},{q:'أصغر عنصر في الجدول الدوري؟',a:'الهيدروجين'},{q:'من اخترع الهاتف؟',a:'غراهام بيل'},{q:'كم درجة غليان الماء؟',a:'100 درجة'},{q:'أكبر كوكب؟',a:'المشتري'},{q:'من طور نظرية النسبية؟',a:'أينشتاين'},{q:'كم عدد أسنان الإنسان البالغ؟',a:'32'},{q:'أي عضو يضخ الدم؟',a:'القلب'},{q:'الجهاز المسؤول عن التنفس؟',a:'الجهاز التنفسي'}]},
-  geo:{n:'جغرافيا',e:'🗺️',c:'#0fd4b4',b:'rgba(15,212,180,.15)',qs:[{q:'عاصمة أستراليا؟',a:'كانبيرا'},{q:'أعلى جبل في العالم؟',a:'إيفرست'},{q:'أكبر صحراء في العالم؟',a:'الصحراء الكبرى'},{q:'عاصمة البرازيل؟',a:'برازيليا'},{q:'أي بحر بين أوروبا وأفريقيا؟',a:'المتوسط'},{q:'أطول سور في العالم؟',a:'سور الصين'},{q:'أكبر جزيرة في العالم؟',a:'غرينلاند'},{q:'عاصمة كندا؟',a:'أوتاوا'},{q:'أعمق بحيرة في العالم؟',a:'بايكال'},{q:'عاصمة المكسيك؟',a:'مكسيكو سيتي'}]},
-  weird:{n:'أسئلة غريبة',e:'🤯',c:'#e83888',b:'rgba(232,56,136,.15)',qs:[{q:'كم عدد أسنان الحلزون؟',a:'أكثر من 14000'},{q:'أي حيوان لا يستطيع القفز؟',a:'الفيل'},{q:'كم مرة يتنفس الإنسان يومياً؟',a:'20000 مرة'},{q:'ما أثقل عضو في الجسم؟',a:'الكبد'},{q:'كم عدد عظام الإنسان البالغ؟',a:'206'},{q:'أي حيوان له 3 قلوب؟',a:'الأخطبوط'},{q:'كم عيناً للعنكبوت؟',a:'8 عيون'},{q:'كم ساعة ينام الأسد يومياً؟',a:'20 ساعة'},{q:'ما اللون الذي لا يراه الكلب؟',a:'الأحمر'},{q:'أي حشرة تعيش يوماً واحداً؟',a:'ذبابة اليوم الواحد'}]},
-  capitals:{n:'عواصم الدول',e:'🏛️',c:'#f59e0b',b:'rgba(245,158,11,.15)',qs:[{q:'عاصمة الأرجنتين؟',a:'بوينس آيرس'},{q:'عاصمة تركيا؟',a:'أنقرة'},{q:'عاصمة كوريا الجنوبية؟',a:'سيول'},{q:'عاصمة إندونيسيا؟',a:'جاكرتا'},{q:'عاصمة نيجيريا؟',a:'أبوجا'},{q:'عاصمة السويد؟',a:'ستوكهولم'},{q:'عاصمة تايلاند؟',a:'بانكوك'},{q:'عاصمة باكستان؟',a:'إسلام آباد'},{q:'عاصمة فيتنام؟',a:'هانوي'},{q:'عاصمة بولندا؟',a:'وارسو'}]},
-  history:{n:'تاريخ',e:'📜',c:'#c8a020',b:'rgba(200,160,32,.15)',qs:[{q:'متى قامت الثورة الفرنسية؟',a:'1789'},{q:'من اكتشف أمريكا؟',a:'كولومبوس'},{q:'أول رئيس أمريكي؟',a:'جورج واشنطن'},{q:'متى انتهت ح.ع الثانية؟',a:'1945'},{q:'في أي عام هبط الإنسان على القمر؟',a:'1969'},{q:'متى سقطت بغداد للمغول؟',a:'1258'},{q:'متى سقط جدار برلين؟',a:'1989'},{q:'أول دولة في الفضاء؟',a:'الاتحاد السوفيتي'},{q:'من أسس الإمبراطورية العثمانية؟',a:'عثمان الأول'},{q:'متى استقلت الجزائر؟',a:'1962'}]},
-  movies:{n:'أفلام ومسلسلات',e:'🎬',c:'#f02848',b:'rgba(240,40,72,.15)',qs:[{q:'من مخرج Titanic؟',a:'جيمس كاميرون'},{q:'أعلى فيلم إيرادات؟',a:'Avatar'},{q:'من يلعب Iron Man؟',a:'روبرت داوني جونيور'},{q:'عام Lion King الأصلي؟',a:'1994'},{q:'بطل The Matrix؟',a:'نيو'},{q:'شرير Star Wars؟',a:'دارث فيدر'},{q:'من اخترع السينما؟',a:'الأخوان لوميير'},{q:'اسم فيلم جيمس بوند الأول؟',a:'Dr No'},{q:'من أخرج Inception؟',a:'كريستوفر نولان'},{q:'أول فيلم ناطق؟',a:'The Jazz Singer'}]},
-  nature:{n:'طبيعة وحيوانات',e:'🦁',c:'#20cc60',b:'rgba(32,204,96,.15)',qs:[{q:'أسرع حيوان بري؟',a:'الفهد'},{q:'أكبر حيوان في العالم؟',a:'الحوت الأزرق'},{q:'ما الحيوان الذي ينام واقفاً؟',a:'الحصان'},{q:'أي طير لا يطير؟',a:'النعامة'},{q:'كم ساق للأخطبوط؟',a:'8'},{q:'أي حيوان له أطول رقبة؟',a:'الزرافة'},{q:'أي حشرة تنتج العسل؟',a:'النحل'},{q:'الحيوان الذي يغير لونه؟',a:'الحرباء'},{q:'أذكى حيوان بري؟',a:'الشمبانزي'},{q:'أثقل طائر في العالم؟',a:'النعامة'}]},
-  music:{n:'موسيقى وأغاني',e:'🎵',c:'#e83888',b:'rgba(232,56,136,.15)',qs:[{q:'لقب مايكل جاكسون؟',a:'ملك البوب'},{q:'من غنى Bohemian Rhapsody؟',a:'فريدي ميركوري'},{q:'من غنى Thriller؟',a:'مايكل جاكسون'},{q:'ما الآلة التي تعزف بالنفخ؟',a:'الناي'},{q:'أقدم آلة موسيقية؟',a:'الطبل'},{q:'من أشهر موسيقار كلاسيكي؟',a:'موزارت'},{q:'ما موطن الفلامنكو؟',a:'إسبانيا'},{q:'أشهر موسيقى برازيلية؟',a:'السامبا'},{q:'كم نغمة في السلم الموسيقي؟',a:'7'},{q:'من هو بيتهوفن؟',a:'موسيقار ألماني'}]},
-  food:{n:'طعام ومطبخ',e:'🍕',c:'#f59e0b',b:'rgba(245,158,11,.15)',qs:[{q:'من أي بلد البيتزا؟',a:'إيطاليا'},{q:'المكون الرئيسي للسوشي؟',a:'الأرز'},{q:'من أي بلد الكروسان؟',a:'النمسا'},{q:'أصل الشوكولا؟',a:'المكسيك'},{q:'أي توابل أغلى من الذهب؟',a:'الزعفران'},{q:'من أين الهمبرغر؟',a:'ألمانيا'},{q:'أكثر الأطعمة أكلاً في العالم؟',a:'الأرز'},{q:'من أي بلد الوافل؟',a:'بلجيكا'},{q:'المكون الأساسي للغواكامولي؟',a:'الأفوكادو'},{q:'من أين تأتي الباستا؟',a:'إيطاليا'}]},
-  space:{n:'الفضاء',e:'🚀',c:'#3888f0',b:'rgba(56,136,240,.15)',qs:[{q:'أقرب كوكب للشمس؟',a:'عطارد'},{q:'كم كوكب في مجموعتنا الشمسية؟',a:'8'},{q:'أكبر كوكب؟',a:'المشتري'},{q:'أول إنسان في الفضاء؟',a:'يوري غاغارين'},{q:'أول إنسان على القمر؟',a:'نيل أرمسترونغ'},{q:'ما مجرتنا؟',a:'درب التبانة'},{q:'كم تبعد الشمس عن الأرض؟',a:'150 مليون كم'},{q:'ما الثقب الأسود؟',a:'منطقة شديدة الجاذبية'},{q:'أصغر كوكب؟',a:'عطارد'},{q:'كم تستغرق الأرض للدوران حول الشمس؟',a:'365 يوماً'}]},
-  tech:{n:'تكنولوجيا',e:'💻',c:'#8855ee',b:'rgba(136,85,238,.15)',qs:[{q:'من أسس Apple؟',a:'ستيف جوبز'},{q:'اختصار CPU؟',a:'وحدة المعالجة المركزية'},{q:'من اخترع الإنترنت؟',a:'تيم بيرنرز لي'},{q:'اختصار AI؟',a:'الذكاء الاصطناعي'},{q:'من أسس Microsoft؟',a:'بيل غيتس'},{q:'اختصار USB؟',a:'Universal Serial Bus'},{q:'من أسس Tesla؟',a:'إيلون ماسك'},{q:'أول لعبة فيديو؟',a:'Pong'},{q:'اختصار RAM؟',a:'ذاكرة الوصول العشوائي'},{q:'من أسس Amazon؟',a:'جيف بيزوس'}]},
-  math:{n:'رياضيات',e:'🔢',c:'#0fd4b4',b:'rgba(15,212,180,.15)',qs:[{q:'كم يساوي 2²؟',a:'4'},{q:'عدد Pi تقريباً؟',a:'3.14'},{q:'العدد الأولي بعد 7؟',a:'11'},{q:'جذر 144؟',a:'12'},{q:'كم زاوية في المثلث؟',a:'180 درجة'},{q:'كم وجه في المكعب؟',a:'6'},{q:'ناتج 12×12؟',a:'144'},{q:'أول عدد أولي؟',a:'2'},{q:'1000×1000؟',a:'مليون'},{q:'الرقم الفردي بين 4 و6؟',a:'5'}]},
-  lang:{n:'لغات وأدب',e:'📚',c:'#f0c84a',b:'rgba(240,200,74,.15)',qs:[{q:'أكثر اللغات انتشاراً؟',a:'المندرين'},{q:'كم حرف في الأبجدية العربية؟',a:'28'},{q:'من ألّف الإلياذة؟',a:'هوميروس'},{q:'كم حرف في الأبجدية الإنجليزية؟',a:'26'},{q:'من كتب رواية 1984؟',a:'جورج أورويل'},{q:'ما أقدم لغة في العالم؟',a:'السومرية'},{q:'من هو المتنبي؟',a:'شاعر عربي'},{q:'أصل كلمة أكاديمية؟',a:'يوناني'},{q:'ما لغة سرفانتس؟',a:'الإسبانية'},{q:'من كتب روبنسون كروزو؟',a:'دانييل ديفو'}]},
-  health:{n:'صحة وجسم',e:'🏥',c:'#20cc60',b:'rgba(32,204,96,.15)',qs:[{q:'كم لتر دم في جسم الإنسان؟',a:'5 لتر'},{q:'أي فصيلة دم نادرة؟',a:'AB سالب'},{q:'كم نبضة للقلب في الدقيقة؟',a:'60 إلى 100'},{q:'كم ساعة نوم يحتاج البالغ؟',a:'7 إلى 9'},{q:'فيتامين أشعة الشمس؟',a:'فيتامين D'},{q:'كم كروموسوم لدى الإنسان؟',a:'46'},{q:'أكبر عضلة في الجسم؟',a:'عضلة الفخذ'},{q:'كم عدد عظام الجمجمة؟',a:'22'},{q:'الخلية المسؤولة عن المناعة؟',a:'خلايا الدم البيضاء'},{q:'الجهاز المسؤول عن الهضم؟',a:'الجهاز الهضمي'}]},
-  money:{n:'اقتصاد ومال',e:'💰',c:'#c8a020',b:'rgba(200,160,32,.15)',qs:[{q:'أغلى عملة في العالم؟',a:'الدينار الكويتي'},{q:'من أسس أمازون؟',a:'جيف بيزوس'},{q:'ما البورصة؟',a:'سوق الأسهم'},{q:'اختصار GDP؟',a:'الناتج المحلي الإجمالي'},{q:'عملة اليابان؟',a:'الين'},{q:'عملة الهند؟',a:'الروبية'},{q:'عملة الصين؟',a:'اليوان'},{q:'ما التضخم؟',a:'ارتفاع الأسعار'},{q:'أكبر اقتصاد في العالم؟',a:'الولايات المتحدة'},{q:'عملة كوريا الجنوبية؟',a:'الوون'}]},
-  algeria:{n:'الجزائر',e:'🇩🇿',c:'#20cc60',b:'rgba(32,204,96,.15)',qs:[{q:'عاصمة الجزائر؟',a:'الجزائر العاصمة'},{q:'متى استقلت الجزائر؟',a:'1962'},{q:'أطول جبل في الجزائر؟',a:'تاهات'},{q:'اللغة الرسمية للجزائر؟',a:'العربية'},{q:'عملة الجزائر؟',a:'الدينار'},{q:'أول رئيس للجزائر؟',a:'أحمد بن بلة'},{q:'الرياضة الأكثر شعبية؟',a:'كرة القدم'},{q:'عدد ولايات الجزائر؟',a:'58'},{q:'أكبر مدينة مساحةً؟',a:'تمنراست'},{q:'أشهر أكلة جزائرية؟',a:'الكسكس'}]},
+  culture:{n:'ثقافة عامة',e:'🌍',c:'#f0c84a',b:'rgba(240,200,74,.15)',qs:[
+    {q:'ما عاصمة فرنسا؟',a:'باريس'},{q:'من رسم الموناليزا؟',a:'دافنشي'},{q:'كم قارة في العالم؟',a:'7'},{q:'ما أطول نهر في العالم؟',a:'النيل'},{q:'أصغر دولة في العالم؟',a:'الفاتيكان'},{q:'أكبر محيط في العالم؟',a:'الهادئ'},{q:'عاصمة اليابان؟',a:'طوكيو'},{q:'من كتب هاملت؟',a:'شكسبير'},{q:'في أي بلد بنيت الأهرامات؟',a:'مصر'},{q:'كم سنة في القرن؟',a:'100'},{q:'أعلى برج في العالم؟',a:'برج خليفة'},{q:'في أي مدينة يوجد برج إيفل؟',a:'باريس'},{q:'ما عاصمة إيطاليا؟',a:'روما'},{q:'ما لغة البرازيل؟',a:'البرتغالية'},{q:'من اخترع الطائرة؟',a:'الأخوان رايت'},{q:'ما عاصمة الهند؟',a:'نيودلهي'},{q:'كم دولة في العالم تقريباً؟',a:'195'},{q:'أكبر دولة في العالم مساحةً؟',a:'روسيا'},{q:'ما عاصمة الصين؟',a:'بكين'},{q:'من اخترع المصباح الكهربائي؟',a:'إديسون'},
+  ]},
+  religion:{n:'دين وإسلاميات',e:'☪️',c:'#20cc60',b:'rgba(32,204,96,.15)',qs:[
+    {q:'كم عدد أركان الإسلام؟',a:'5'},{q:'أول سورة في القرآن؟',a:'الفاتحة'},{q:'كم آية في سورة الفاتحة؟',a:'7'},{q:'في أي شهر نزل القرآن؟',a:'رمضان'},{q:'عدد أسماء الله الحسنى؟',a:'99'},{q:'أول الأنبياء؟',a:'آدم'},{q:'مكان مولد النبي ﷺ؟',a:'مكة'},{q:'كم ركعة في الظهر؟',a:'4'},{q:'عدد صلوات اليوم؟',a:'5'},{q:'ما الحج بالنسبة للقادر؟',a:'فرض'},{q:'كم جزء في القرآن الكريم؟',a:'30'},{q:'ما أول ما نزل من القرآن؟',a:'اقرأ'},{q:'كم سنة بعث النبي ﷺ؟',a:'40 سنة'},{q:'ما الإسراء والمعراج؟',a:'رحلة النبي ليلاً'},{q:'كم عدد الصحابة الكرام تقريباً؟',a:'100 ألف'},{q:'ما أطول سورة في القرآن؟',a:'البقرة'},{q:'في أي يوم فُرض الصيام؟',a:'رمضان'},{q:'ما الزكاة؟',a:'ركن من أركان الإسلام'},{q:'ما صلاة الجمعة؟',a:'فرض عين'},{q:'كم ركعة في الفجر؟',a:'2'},
+  ]},
+  football:{n:'كرة القدم',e:'⚽',c:'#3888f0',b:'rgba(56,136,240,.15)',qs:[
+    {q:'كم لاعب في فريق كرة القدم؟',a:'11'},{q:'من فاز بكأس العالم 2022؟',a:'الأرجنتين'},{q:'كم نقطة للفوز في الدوري؟',a:'3'},{q:'أي بلد استضاف أول كأس عالم؟',a:'أوروغواي'},{q:'ما مدة مباراة كرة القدم؟',a:'90 دقيقة'},{q:'كم مرة فازت البرازيل؟',a:'5'},{q:'من فاز بكأس العالم 2018؟',a:'فرنسا'},{q:'أكثر نادٍ بدوري الأبطال؟',a:'ريال مدريد'},{q:'من فاز بيورو 2020؟',a:'إيطاليا'},
+    {q:'ما جنسية ميسي؟',a:'أرجنتيني',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg/220px-Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg'},
+    {q:'ما جنسية رونالدو؟',a:'برتغالي',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Cristiano_Ronaldo_2018.jpg/220px-Cristiano_Ronaldo_2018.jpg'},
+    {q:'ما نادي مبابي الحالي؟',a:'ريال مدريد'},{q:'من هو حارس منتخب الأرجنتين 2022؟',a:'مارتينيز'},{q:'في أي مدينة يلعب نادي برشلونة؟',a:'برشلونة'},{q:'ما لون قميص منتخب البرازيل؟',a:'أصفر'},{q:'كم دقيقة الشوط الواحد؟',a:'45'},{q:'من يحكم المباراة؟',a:'الحكم'},{q:'ما معنى الضربة الترجيحية؟',a:'ركلات الجزاء'},{q:'كم بطاقة صفراء تستوجب الطرد؟',a:'2'},{q:'أين يلعب نادي باريس سان جيرمان؟',a:'باريس'},{q:'من فاز بكأس العالم 2014؟',a:'ألمانيا'},
+  ]},
+  sports:{n:'رياضة عامة',e:'🏅',c:'#f59e0b',b:'rgba(245,158,11,.15)',qs:[
+    {q:'مسافة سباق الماراثون؟',a:'42 كم'},{q:'عدد لاعبي كرة السلة؟',a:'5'},{q:'رياضة تستخدم مضرباً وريشة؟',a:'بادمنتون'},{q:'كم نقطة ثلاثية في كرة السلة؟',a:'3'},{q:'عدد لاعبي الكرة الطائرة؟',a:'6'},{q:'أكثر رياضي بميداليات أولمبية؟',a:'فيلبس'},{q:'أقدم رياضة أولمبية؟',a:'المصارعة'},{q:'من فاز بكأس أمم أفريقيا 2021؟',a:'السنغال'},{q:'في أي رياضة يُستخدم المضرب والكرة الصغيرة البيضاء؟',a:'تنس الطاولة'},{q:'كم متر سباق 100 متر؟',a:'100'},{q:'في أي رياضة يُستخدم المزلج؟',a:'التزلج'},{q:'ما الرياضة التي تجمع سباحة وركض ودراجة؟',a:'الترياتلون'},{q:'كم دقيقة الفترة في كرة السلة؟',a:'10'},{q:'في أي رياضة يوجد ضربة المانع؟',a:'الغولف'},{q:'من فاز ببطولة ويمبلدون 2023؟',a:'ألكاراز'},{q:'كم عدد حلقات الأولمبياد؟',a:'5'},{q:'ألوان حلقات الأولمبياد كم؟',a:'5'},{q:'ما الرياضة الأكثر متابعة في العالم؟',a:'كرة القدم'},{q:'في أي دولة اخترع البيسبول؟',a:'أمريكا'},{q:'ما الرياضة الوطنية لليابان؟',a:'السومو'},
+  ]},
+  science:{n:'علوم وتقنية',e:'🔬',c:'#8855ee',b:'rgba(136,85,238,.15)',qs:[
+    {q:'الرمز الكيميائي للذهب؟',a:'Au'},{q:'كم سرعة الضوء؟',a:'300000 كم'},{q:'أصغر عنصر في الجدول الدوري؟',a:'هيدروجين'},{q:'من اخترع الهاتف؟',a:'بيل'},{q:'كم درجة غليان الماء؟',a:'100'},{q:'أكبر كوكب؟',a:'المشتري'},{q:'من طور نظرية النسبية؟',a:'أينشتاين'},{q:'كم عدد أسنان الإنسان البالغ؟',a:'32'},{q:'أي عضو يضخ الدم؟',a:'القلب'},{q:'ما رمز الأكسجين؟',a:'O'},{q:'كم عنصر في الجدول الدوري؟',a:'118'},{q:'ما أثقل عنصر؟',a:'أوغانيسون'},{q:'من اكتشف الجاذبية؟',a:'نيوتن'},{q:'ما الـ DNA؟',a:'حمض الديوكسيريبوز النووي'},{q:'كم كروموسوم لدى الإنسان؟',a:'46'},{q:'ما نوع قمر الأرض؟',a:'قمر طبيعي'},{q:'ما اختصار CPU؟',a:'وحدة المعالجة'},{q:'من اخترع الإنترنت؟',a:'بيرنرز لي'},{q:'ما اختصار AI؟',a:'ذكاء اصطناعي'},{q:'من أسس Apple؟',a:'جوبز'},
+  ]},
+  geo:{n:'جغرافيا',e:'🗺️',c:'#0fd4b4',b:'rgba(15,212,180,.15)',qs:[
+    {q:'عاصمة أستراليا؟',a:'كانبيرا'},{q:'أعلى جبل في العالم؟',a:'إيفرست'},{q:'أكبر صحراء في العالم؟',a:'الصحراء الكبرى'},{q:'عاصمة البرازيل؟',a:'برازيليا'},{q:'أي بحر بين أوروبا وأفريقيا؟',a:'المتوسط'},{q:'أطول سور في العالم؟',a:'سور الصين'},{q:'أكبر جزيرة في العالم؟',a:'غرينلاند'},{q:'عاصمة كندا؟',a:'أوتاوا'},{q:'أعمق بحيرة في العالم؟',a:'بايكال'},{q:'عاصمة المكسيك؟',a:'مكسيكو'},{q:'في أي قارة تقع مصر؟',a:'أفريقيا'},{q:'أطول نهر في أمريكا الجنوبية؟',a:'الأمازون'},{q:'ما أكبر دول أفريقيا مساحةً؟',a:'الجزائر'},{q:'عاصمة روسيا؟',a:'موسكو'},{q:'عاصمة تركيا؟',a:'أنقرة'},{q:'في أي قارة أستراليا؟',a:'أوقيانوسيا'},{q:'ما البحر الميت؟',a:'أخفض بحيرة في العالم'},{q:'أين نهر النيل؟',a:'أفريقيا'},{q:'أكبر دولة في آسيا؟',a:'روسيا'},{q:'ما عاصمة كوريا الجنوبية؟',a:'سيول'},
+  ]},
+  weird:{n:'أسئلة غريبة',e:'🤯',c:'#e83888',b:'rgba(232,56,136,.15)',qs:[
+    {q:'كم عدد أسنان الحلزون؟',a:'14000'},{q:'أي حيوان لا يستطيع القفز؟',a:'الفيل'},{q:'كم مرة يتنفس الإنسان يومياً؟',a:'20000'},{q:'ما أثقل عضو في الجسم؟',a:'الكبد'},{q:'كم عدد عظام الإنسان البالغ؟',a:'206'},{q:'أي حيوان له 3 قلوب؟',a:'الأخطبوط'},{q:'كم عيناً للعنكبوت؟',a:'8'},{q:'كم ساعة ينام الأسد يومياً؟',a:'20'},{q:'ما اللون الذي لا يراه الكلب؟',a:'الأحمر'},{q:'أي حشرة تعيش يوماً واحداً؟',a:'ذبابة اليوم'},{q:'كم قلب للدجاجة؟',a:'1'},{q:'ما أصغر طائر في العالم؟',a:'الطائر الطنان'},{q:'كم يعيش التمساح؟',a:'70 سنة'},{q:'ما الحيوان الوحيد الذي لا ينام؟',a:'لا يوجد'},{q:'كم مخلب للقطة؟',a:'18'},{q:'ما أكبر حشرة؟',a:'غوليات'},{q:'هل النملة تنام؟',a:'نعم'},{q:'كم بيضة تضع الدجاجة سنوياً؟',a:'250'},{q:'ما الحيوان الذي ينام أكثر؟',a:'الكسلان'},{q:'كم أسنان للحصان؟',a:'40'},
+  ]},
+  capitals:{n:'عواصم الدول',e:'🏛️',c:'#f59e0b',b:'rgba(245,158,11,.15)',qs:[
+    {q:'عاصمة الأرجنتين؟',a:'بوينس آيرس'},{q:'عاصمة تركيا؟',a:'أنقرة'},{q:'عاصمة كوريا الجنوبية؟',a:'سيول'},{q:'عاصمة إندونيسيا؟',a:'جاكرتا'},{q:'عاصمة نيجيريا؟',a:'أبوجا'},{q:'عاصمة السويد؟',a:'ستوكهولم'},{q:'عاصمة تايلاند؟',a:'بانكوك'},{q:'عاصمة باكستان؟',a:'إسلام آباد'},{q:'عاصمة فيتنام؟',a:'هانوي'},{q:'عاصمة بولندا؟',a:'وارسو'},{q:'عاصمة المغرب؟',a:'الرباط'},{q:'عاصمة ليبيا؟',a:'طرابلس'},{q:'عاصمة تونس؟',a:'تونس'},{q:'عاصمة السودان؟',a:'الخرطوم'},{q:'عاصمة سوريا؟',a:'دمشق'},{q:'عاصمة إيران؟',a:'طهران'},{q:'عاصمة العراق؟',a:'بغداد'},{q:'عاصمة الأردن؟',a:'عمان'},{q:'عاصمة السعودية؟',a:'الرياض'},{q:'عاصمة الإمارات؟',a:'أبوظبي'},
+  ]},
+  history:{n:'تاريخ',e:'📜',c:'#c8a020',b:'rgba(200,160,32,.15)',qs:[
+    {q:'متى قامت الثورة الفرنسية؟',a:'1789'},{q:'من اكتشف أمريكا؟',a:'كولومبوس'},{q:'أول رئيس أمريكي؟',a:'واشنطن'},{q:'متى انتهت ح.ع الثانية؟',a:'1945'},{q:'في أي عام هبط الإنسان على القمر؟',a:'1969'},{q:'متى سقطت بغداد للمغول؟',a:'1258'},{q:'متى سقط جدار برلين؟',a:'1989'},{q:'أول دولة في الفضاء؟',a:'روسيا'},{q:'من أسس الإمبراطورية العثمانية؟',a:'عثمان الأول'},{q:'متى استقلت الجزائر؟',a:'1962'},{q:'متى فُتحت مكة المكرمة؟',a:'630 م'},{q:'من بنى الأهرامات؟',a:'المصريون القدماء'},{q:'متى انتهت الحرب العالمية الأولى؟',a:'1918'},{q:'من قاد الثورة الأمريكية؟',a:'واشنطن'},{q:'في أي عام استقلت الهند؟',a:'1947'},{q:'من غزا مصر من الفرنسيين؟',a:'نابليون'},{q:'متى سقطت الدولة العثمانية؟',a:'1922'},{q:'من كان أول رئيس لمصر؟',a:'محمد نجيب'},{q:'متى اكتُشفت أمريكا؟',a:'1492'},{q:'من أسس مدينة القاهرة؟',a:'جوهر الصقلي'},
+  ]},
+  movies:{n:'أفلام ومسلسلات',e:'🎬',c:'#f02848',b:'rgba(240,40,72,.15)',qs:[
+    {q:'من مخرج Titanic؟',a:'كاميرون'},{q:'أعلى فيلم إيرادات؟',a:'Avatar'},{q:'من يلعب Iron Man؟',a:'داوني جونيور'},{q:'عام Lion King الأصلي؟',a:'1994'},{q:'بطل The Matrix؟',a:'نيو'},{q:'شرير Star Wars؟',a:'دارث فيدر'},{q:'من اخترع السينما؟',a:'لوميير'},{q:'اسم فيلم جيمس بوند الأول؟',a:'Dr No'},{q:'من أخرج Inception؟',a:'نولان'},{q:'أول فيلم ناطق؟',a:'Jazz Singer'},{q:'من بطل Gladiator؟',a:'راسل كرو'},{q:'ما فيلم DiCaprio الأشهر؟',a:'Titanic'},{q:'من أخرج Interstellar؟',a:'نولان'},{q:'ما أشهر فيلم رعب؟',a:'The Exorcist'},{q:'من بطل The Godfather؟',a:'مارلون براندو'},{q:'أشهر فيلم Pixar؟',a:'Toy Story'},{q:'من صوّت Simba في Lion King؟',a:'متعدد'},{q:'ما فيلم أرباح 2 مليار؟',a:'Avatar'},{q:'من أخرج Schindler List؟',a:'سبيلبرغ'},{q:'ما مدة فيلم The Lord of the Rings؟',a:'3 ساعات'},
+  ]},
+  nature:{n:'طبيعة وحيوانات',e:'🦁',c:'#20cc60',b:'rgba(32,204,96,.15)',qs:[
+    {q:'أسرع حيوان بري؟',a:'الفهد'},{q:'أكبر حيوان في العالم؟',a:'الحوت الأزرق'},{q:'ما الحيوان الذي ينام واقفاً؟',a:'الحصان'},{q:'أي طير لا يطير؟',a:'النعامة'},{q:'كم ساق للأخطبوط؟',a:'8'},{q:'أي حيوان له أطول رقبة؟',a:'الزرافة'},{q:'أي حشرة تنتج العسل؟',a:'النحل'},{q:'الحيوان الذي يغير لونه؟',a:'الحرباء'},{q:'أذكى حيوان بري؟',a:'الشمبانزي'},{q:'أثقل طائر في العالم؟',a:'النعامة'},{q:'ما الحيوان الوطني للأسترالية؟',a:'الكنغر'},{q:'أي حيوان يعيش أطول؟',a:'السلحفاة'},{q:'ما غذاء الباندا؟',a:'الخيزران'},{q:'من أين القطب الشمالي؟',a:'القطب الشمالي'},{q:'ما لون دم الأخطبوط؟',a:'أزرق'},{q:'أي حيوان لا يشرب ماء؟',a:'الكوالا'},{q:'ما أصغر ثديي؟',a:'خلد الأسنان'},{q:'كم بيضة يضع البطريق؟',a:'1'},{q:'ما الحيوان الذي يبكي دموعاً حقيقية؟',a:'الإنسان'},{q:'من أين يأتي العسل؟',a:'النحل'},
+  ]},
+  music:{n:'موسيقى وأغاني',e:'🎵',c:'#e83888',b:'rgba(232,56,136,.15)',qs:[
+    {q:'لقب مايكل جاكسون؟',a:'ملك البوب'},{q:'من غنى Bohemian Rhapsody؟',a:'فريدي ميركوري'},{q:'من غنى Thriller؟',a:'مايكل جاكسون'},{q:'ما الآلة التي تعزف بالنفخ؟',a:'الناي'},{q:'أقدم آلة موسيقية؟',a:'الطبل'},{q:'من أشهر موسيقار كلاسيكي؟',a:'موزارت'},{q:'ما موطن الفلامنكو؟',a:'إسبانيا'},{q:'كم نغمة في السلم الموسيقي؟',a:'7'},{q:'من هو بيتهوفن؟',a:'موسيقار ألماني'},{q:'من غنى Imagine؟',a:'جون لينون'},{q:'ما أكثر أغنية تُشغَّل في التاريخ؟',a:'Shape of You'},{q:'من مؤسس فرقة BTS؟',a:'بيغ هيت'},{q:'ما جنسية شاكيرا؟',a:'كولومبية'},{q:'من غنى Hello؟',a:'أديل'},{q:'ما جنسية بياتريس؟',a:'بريطانية'},{q:'من غنى Despacito؟',a:'لويس فونسي'},{q:'ما لغة K-Pop؟',a:'كورية'},{q:'من يعزف الغيتار في Led Zeppelin؟',a:'جيمي بيج'},{q:'ما الجيتار؟',a:'آلة وترية'},{q:'من غنى Bad Guy؟',a:'بيلي إيليش'},
+  ]},
+  food:{n:'طعام ومطبخ',e:'🍕',c:'#f59e0b',b:'rgba(245,158,11,.15)',qs:[
+    {q:'من أي بلد البيتزا؟',a:'إيطاليا'},{q:'المكون الرئيسي للسوشي؟',a:'الأرز'},{q:'من أي بلد الكروسان؟',a:'النمسا'},{q:'أصل الشوكولا؟',a:'المكسيك'},{q:'أي توابل أغلى من الذهب؟',a:'الزعفران'},{q:'من أين الهمبرغر؟',a:'ألمانيا'},{q:'أكثر الأطعمة أكلاً في العالم؟',a:'الأرز'},{q:'من أي بلد الوافل؟',a:'بلجيكا'},{q:'المكون الأساسي للغواكامولي؟',a:'الأفوكادو'},{q:'من أين تأتي الباستا؟',a:'إيطاليا'},{q:'ما أصل الكبسة؟',a:'السعودية'},{q:'ما أشهر أكلة جزائرية؟',a:'الكسكس'},{q:'ما المكون الرئيسي للهمبرغر؟',a:'اللحم'},{q:'ما أصل البرياني؟',a:'الهند'},{q:'ما أشهر مشروب في العالم بعد الماء؟',a:'الشاي'},{q:'من أي بلد الكاري؟',a:'الهند'},{q:'ما أصل الباييلا؟',a:'إسبانيا'},{q:'ما المكون الرئيسي للمسمن؟',a:'الدقيق'},{q:'ما أصل الفلافل؟',a:'الشرق الأوسط'},{q:'من أين يأتي القهوة أصلاً؟',a:'إثيوبيا'},
+  ]},
+  space:{n:'الفضاء',e:'🚀',c:'#3888f0',b:'rgba(56,136,240,.15)',qs:[
+    {q:'أقرب كوكب للشمس؟',a:'عطارد'},{q:'كم كوكب في مجموعتنا الشمسية؟',a:'8'},{q:'أكبر كوكب؟',a:'المشتري'},{q:'أول إنسان في الفضاء؟',a:'غاغارين'},{q:'أول إنسان على القمر؟',a:'أرمسترونغ'},{q:'ما مجرتنا؟',a:'درب التبانة'},{q:'كم تبعد الشمس عن الأرض؟',a:'150 مليون كم'},{q:'ما الثقب الأسود؟',a:'منطقة شديدة الجاذبية'},{q:'أصغر كوكب؟',a:'عطارد'},{q:'كم تستغرق الأرض للدوران حول الشمس؟',a:'365 يوم'},{q:'كم تستغرق الأرض للدوران حول نفسها؟',a:'24 ساعة'},{q:'ما أقرب نجم للأرض بعد الشمس؟',a:'بروكسيما سنتوري'},{q:'ما لون كوكب المريخ؟',a:'أحمر'},{q:'كم قمر للمشتري؟',a:'95'},{q:'ما الكوكب الأكثر بروداً؟',a:'أورانوس'},{q:'ما الكوكب الذي له حلقات؟',a:'زحل'},{q:'ما معنى ناسا؟',a:'وكالة الفضاء الأمريكية'},{q:'في أي عام أُرسل أول قمر صناعي؟',a:'1957'},{q:'ما اسم أول قمر صناعي؟',a:'سبوتنيك'},{q:'كم كوكباً في المجموعة الشمسية؟',a:'8'},
+  ]},
+  tech:{n:'تكنولوجيا',e:'💻',c:'#8855ee',b:'rgba(136,85,238,.15)',qs:[
+    {q:'من أسس Apple؟',a:'جوبز'},{q:'اختصار CPU؟',a:'وحدة المعالجة'},{q:'من اخترع الإنترنت؟',a:'بيرنرز لي'},{q:'اختصار AI؟',a:'ذكاء اصطناعي'},{q:'من أسس Microsoft؟',a:'غيتس'},{q:'اختصار USB؟',a:'ناقل تسلسلي'},{q:'من أسس Tesla؟',a:'ماسك'},{q:'أول لعبة فيديو؟',a:'Pong'},{q:'اختصار RAM؟',a:'ذاكرة الوصول العشوائي'},{q:'من أسس Amazon؟',a:'بيزوس'},{q:'ما لغة برمجة أندرويد؟',a:'Java'},{q:'من صنع ChatGPT؟',a:'OpenAI'},{q:'ما أسرع معالج في العالم؟',a:'يتغير باستمرار'},{q:'ما اختصار WWW؟',a:'شبكة الويب العالمية'},{q:'من أسس Google؟',a:'برين وبيج'},{q:'ما أكثر لغة برمجة استخداماً؟',a:'Python'},{q:'ما اختصار HTML؟',a:'لغة ترميز النص'},{q:'من أسس Meta؟',a:'زوكربرغ'},{q:'ما أكثر تطبيق تحميلاً في التاريخ؟',a:'TikTok'},{q:'ما اختصار GPS؟',a:'نظام تحديد المواقع'},
+  ]},
+  algeria:{n:'الجزائر 🇩🇿',e:'🇩🇿',c:'#20cc60',b:'rgba(32,204,96,.15)',qs:[
+    {q:'عاصمة الجزائر؟',a:'الجزائر العاصمة'},{q:'متى استقلت الجزائر؟',a:'1962'},{q:'أطول جبل في الجزائر؟',a:'تاهات'},{q:'اللغة الرسمية للجزائر؟',a:'العربية'},{q:'عملة الجزائر؟',a:'الدينار'},{q:'أول رئيس للجزائر؟',a:'بن بلة'},{q:'الرياضة الأكثر شعبية؟',a:'كرة القدم'},{q:'عدد ولايات الجزائر؟',a:'58'},{q:'أشهر أكلة جزائرية؟',a:'الكسكس'},{q:'ما أكبر ولاية في الجزائر؟',a:'تمنراست'},{q:'ما الموقع الجغرافي للجزائر؟',a:'شمال أفريقيا'},{q:'ما ثاني أكبر مدينة في الجزائر؟',a:'وهران'},{q:'متى بدأت الثورة الجزائرية؟',a:'1954'},{q:'ما عدد سكان الجزائر تقريباً؟',a:'45 مليون'},{q:'ما الجبل الشهير في الجزائر؟',a:'جرجرة'},{q:'من هو رمز الثورة الجزائرية؟',a:'الأمير عبدالقادر'},{q:'ما اللباس التقليدي الجزائري؟',a:'البرنوس'},{q:'ما أشهر موسيقى جزائرية؟',a:'الراي'},{q:'ما المدينة الجزائرية المعروفة بالبيوت البيضاء؟',a:'الجزائر العاصمة'},{q:'ما دور الجزائر في أفريقيا؟',a:'أكبر دولة أفريقية'},
+  ]},
 };
 const CKS=Object.keys(CATS);
 
@@ -560,7 +581,7 @@ function toggleAll(){
   buildCats();
 }
 
-// ══ SOCKET EVENTS ══
+// ══ SOCKET ══
 socket.on('connect',()=>{myId=socket.id;});
 
 socket.on('players',players=>{
@@ -573,14 +594,14 @@ socket.on('players',players=>{
       r.innerHTML=`<div class="pav" style="background:${isMe?'var(--gold2)':'var(--bl)'}">${isMe?'👑':'😊'}</div><div class="pn">${p.name}${isMe?' (أنت)':''}</div>${isMe&&isHost?'<div class="ph">مضيف</div>':''}`;
       el.appendChild(r);
     });
-    // update scores
-    players.forEach(p=>{bScores[p.id]=p.score||0;});
   });
+  // ══ FIX SCORES: تحديث النقاط من السيرفر ══
+  players.forEach(p=>{bScores[p.id]=p.score||0;});
+  renderLS('bwLS');renderLS('bvLS');
 });
 
 socket.on('ok-create',({code})=>{
-  myRoom=code;
-  $('bWCode').textContent=code;
+  myRoom=code;$('bWCode').textContent=code;
   makeQR('bWQR',window.location.origin+'?join='+code);
   $('bStBtn').style.display='block';
   go('bl-wait');
@@ -588,10 +609,8 @@ socket.on('ok-create',({code})=>{
 
 socket.on('ok-join',({code})=>{
   myRoom=code;
-  if($('bWCode'))$('bWCode').textContent=code;
-  if($('jWCode'))$('jWCode').textContent=code;
-  if($('dWCode'))$('dWCode').textContent=code;
-  if($('bStBtn'))$('bStBtn').style.display='none';
+  ['bWCode','jWCode','dWCode'].forEach(id=>{const e=$(id);if(e)e.textContent=code;});
+  [$('bStBtn'),$('dStBtn')].forEach(b=>{if(b)b.style.display='none';});
   go('bl-wait');
 });
 
@@ -606,15 +625,11 @@ socket.on('ans-count',({done,total})=>{
   if($('bwWtCnt'))$('bwWtCnt').textContent=`أجاب ${done} من ${total}`;
 });
 
-socket.on('all-ans',ans=>{
-  window._allAns=ans;
-  renderVoteScreen(ans);
-});
+socket.on('all-ans',ans=>{window._allAns=ans;renderVoteScreen(ans);});
 
-socket.on('all-votes',({votes,ans})=>{
-  renderRevealScreen(votes,ans);
-});
+socket.on('all-votes',({votes,ans})=>{renderRevealScreen(votes,ans);});
 
+// ══ FIX: تحديث النقاط من السيرفر ══
 socket.on('scores-update',players=>{
   players.forEach(p=>{bScores[p.id]=p.score||0;});
   renderLS('bwLS');renderLS('bvLS');
@@ -675,6 +690,10 @@ function renderWriteScreen(q,i,total){
   $('bwProg').style.width=Math.round((i+1)/total*100)+'%';
   $('bwTag').textContent=cat.n;$('bwTag').style.background=cat.b;$('bwTag').style.color=cat.c;
   $('bwQ').textContent=q.q;
+  // صورة السؤال
+  const img=$('bwImg');
+  if(q.img){img.src=q.img;img.classList.add('show');}
+  else{img.src='';img.classList.remove('show');}
   $('bwLbl').textContent='✍️ إجابتك';$('bwInp').value='';$('bwInp').placeholder='اكتب جوابك...';
   $('bwBtn').textContent='✅ تأكيد';$('bwBdg').textContent='✍️ اكتب إجابتك';
   $('bwForm').style.display='flex';$('bwBtn').style.display='block';$('bwWt').style.display='none';
@@ -698,8 +717,7 @@ function submitWrite(){
       sendAns(val);
     }
   }else{
-    bBluff=val;bPhase='init';
-    sendAns(val);
+    bBluff=val;bPhase='init';sendAns(val);
   }
 }
 
@@ -740,26 +758,38 @@ function renderRevealScreen(votes,ans){
   const myVote=bVOpts[bVIdx]||'—';
   const votedCorrect=myVote===bCorr;
   const myOrigCorrect=aiCheck(bMyOrigAns,bCorr).ok;
+  
+  // ══ FIX SCORING ══
   let myPts=0;
-  if(myOrigCorrect)myPts+=2;
-  else if(votedCorrect)myPts+=1;
+  if(myOrigCorrect) myPts+=2;        // إجابتك صحيحة +2
+  else if(votedCorrect) myPts+=1;    // صوّت صح وإجابتك خاطئة +1
+  
+  // +1 لكل شخص صوّت على إجابتك الخاطئة
   Object.entries(votes).forEach(([id,vote])=>{
     if(id!==socket.id){
-      if(!myOrigCorrect&&bMyAns&&vote===bMyAns)myPts+=1;
-      if(bBluff&&vote===bBluff)myPts+=1;
+      if(!myOrigCorrect&&bMyAns&&vote===bMyAns) myPts+=1;
+      if(bBluff&&vote===bBluff) myPts+=1;
     }
   });
+
+  // إرسال النقاط للسيرفر
   socket.emit('update-score',{code:myRoom,scores:[{id:socket.id,pts:myPts}]});
+  // تحديث محلي فوري
+  bScores[socket.id]=(bScores[socket.id]||0)+myPts;
+
   Object.entries(ans).forEach(([id,wrote])=>{
     const vote=votes[id]||'—';const ok=vote===bCorr;const isMe=id===socket.id;
-    const pts=isMe?myPts:(ok?1:0);const gotBluffed=!ok&&(wrote===bMyAns||wrote===bBluff);
+    const pts=isMe?myPts:(ok?1:0);
+    const gotBluffed=!ok&&wrote!==bCorr&&(wrote===bMyAns||wrote===bBluff);
     const row=document.createElement('div');row.className='rrow';
-    row.innerHTML=`<div style="font-size:11px;color:var(--mu);margin-bottom:3px">👤 ${isMe?myName:'لاعب'}</div>
+    row.innerHTML=`
+      <div style="font-size:11px;color:var(--mu);margin-bottom:3px">👤 ${isMe?myName:'لاعب'}</div>
       <div style="font-size:14px;font-weight:700">كتب: <b>${wrote}</b></div>
       <div style="font-size:12px;color:var(--mu);margin-top:3px">صوّت: <b style="color:${ok?'var(--gr)':'var(--rd)'}">${vote}</b></div>
       <div style="font-size:12px;font-weight:800;margin-top:4px;color:${pts>0?'var(--gr)':pts<0?'var(--rd)':'var(--mu)'}">${pts>0?'⭐ +'+pts:gotBluffed?'😅 انخدع':'—'}</div>`;
     list.appendChild(row);
   });
+
   const isLast=(bIdx>=bQs.length-1);
   $('brBtn').textContent=isLast?'🏆 النتائج النهائية':'➡️ السؤال التالي';
   $('brBtn').style.display='block';$('brBtn').disabled=false;
@@ -773,11 +803,12 @@ function handleReveal(){
   else if(isHost){socket.emit('next',{code:myRoom,scores:[]});}
 }
 
+// ══ FIX: عرض النقاط بشكل صحيح ══
 function renderLS(id){
   const el=$(id);if(!el)return;el.innerHTML='';
   Object.entries(bScores).forEach(([sid,pts])=>{
     const d=document.createElement('div');d.className='lsp';
-    d.innerHTML=`<span class="lsn">${sid===socket.id?myName:'لاعب'}</span><span class="lspt">${pts}⭐</span>`;
+    d.innerHTML=`<span class="lsn">${sid===socket.id?myName:'لاعب'}</span><span class="lspt">${Math.max(0,pts)}⭐</span>`;
     el.appendChild(d);
   });
 }
@@ -788,8 +819,7 @@ function setupJudge(){const code=rnd4();jRoom=code;$('jCode').textContent=code;m
 function openJWait(){
   const name=$('jHostName').value.trim(),q=$('jQ').value.trim(),a=$('jAns').value.trim();
   if(!name||!q||!a){toast('⚠️ أكمل جميع الحقول');return;}
-  jQ_=q;jAns_=a;jHint_=$('jHint').value.trim();
-  myName=name;isHost=true;
+  jQ_=q;jAns_=a;jHint_=$('jHint').value.trim();myName=name;isHost=true;
   $('jWCode').textContent=jRoom;
   socket.emit('create-room',{code:jRoom,name});
   jScores={};go('ju-wait');
@@ -850,25 +880,16 @@ function jConfirm(){
 function nextJQ(){$('jQ').value='';$('jAns').value='';$('jHint').value='';jScores={};go('ju-create');}
 
 // ══ DRAW ══
-const DW=['قطة','سيارة','شجرة','بيت','قمر','تفاح','كلب','طائر','سمكة','نجمة','كأس','قلب','مفتاح','هاتف','كتاب','دراجة','طيارة','قارب','قلم','ساعة','جبل','نهر','زهرة','فيل','أسد','قرد','كعكة','بيتزا','ثعلب','دلفين'];
+const DW=['قطة','سيارة','شجرة','بيت','قمر','تفاح','كلب','طائر','سمكة','نجمة','كأس','قلب','مفتاح','هاتف','كتاب','دراجة','طيارة','قارب','قلم','ساعة','جبل','نهر','زهرة','فيل','أسد','قرد','كعكة','بيتزا','ثعلب','دلفين','برج','قلعة','شمس','ثلج','ناقة','غيمة','مطر','نخلة'];
 
-function createDraw(){
-  dRoom=rnd4();$('dWCode').textContent=dRoom;
-  makeQR('dQR',window.location.origin+'?join='+dRoom);
-  mkPListD('dPList',true);go('dr-wait');
-}
-
+function createDraw(){dRoom=rnd4();$('dWCode').textContent=dRoom;makeQR('dQR',window.location.origin+'?join='+dRoom);mkPListD('dPList',true);go('dr-wait');}
 function joinDraw(){
   const code=$('dJCode').value+'',name=$('dJName').value.trim();
   if(code.length!==4){toast('⚠️ كود من 4 أرقام');return;}
   if(!name){toast('⚠️ أدخل اسمك');return;}
-  toast('🔗 جاري الانضمام...');
-  dRoom=code;$('dWCode').textContent=code;
-  mkPListD('dPList',false,name);go('dr-wait');
+  dRoom=code;$('dWCode').textContent=code;mkPListD('dPList',false,name);go('dr-wait');
 }
-
 function startDraw(){dRound=1;loadDrawR();}
-
 function loadDrawR(){
   dWord=DW[Math.floor(Math.random()*DW.length)];dIsD=true;
   $('dgR').textContent=dRound;$('dgRT').textContent=dTR;
@@ -880,22 +901,9 @@ function loadDrawR(){
   $('dFeed').innerHTML='';
   go('draw-game');setTimeout(()=>{dClear();startDT();},150);
 }
-
-function startDT(){
-  if(dTmr)clearInterval(dTmr);dTime=60;updDT();
-  dTmr=setInterval(()=>{dTime--;updDT();if(dTime<=0){clearInterval(dTmr);nextDR();}},1000);
-}
-
-function updDT(){
-  $('dTN').textContent=dTime;
-  $('dTring').style.background=`conic-gradient(${dTime>15?'var(--gold)':'var(--rd)'} ${dTime/60*100}%,var(--c3) 0)`;
-}
-
-function nextDR(){
-  if(dRound>=dTR){showDS();return;}
-  dRound++;showOvl('🔄','جولة '+dRound,'استعد!',loadDrawR,1600);
-}
-
+function startDT(){if(dTmr)clearInterval(dTmr);dTime=60;updDT();dTmr=setInterval(()=>{dTime--;updDT();if(dTime<=0){clearInterval(dTmr);nextDR();}},1000);}
+function updDT(){$('dTN').textContent=dTime;$('dTring').style.background=`conic-gradient(${dTime>15?'var(--gold)':'var(--rd)'} ${dTime/60*100}%,var(--c3) 0)`;}
+function nextDR(){if(dRound>=dTR){showDS();return;}dRound++;showOvl('🔄','جولة '+dRound,'استعد!',loadDrawR,1600);}
 function showDS(){
   clearInterval(dTmr);
   const pl=[{n:'أنت',p:Math.floor(Math.random()*800+200)},{n:'سلطان',p:Math.floor(Math.random()*700)},{n:'نورة',p:Math.floor(Math.random()*600+100)}].sort((a,b)=>b.p-a.p);
@@ -903,20 +911,17 @@ function showDS(){
   pl.forEach((p,i)=>{const r=document.createElement('div');r.className='sbrow';r.innerHTML=`<span style="font-size:20px">${m[i]}</span><span style="flex:1;font-weight:700">${p.n}</span><span style="font-size:16px;font-weight:900;color:var(--gold)">${p.p}</span>`;list.appendChild(r);});
   go('dr-scores');
 }
-
 function dGuess(){
   const v=$('gInp').value.trim();if(!v)return;$('gInp').value='';
   const ok=v.toLowerCase()===dWord.toLowerCase();
   addFeed('أنت',v,ok);
   if(ok){clearInterval(dTmr);$('wShow').textContent=dWord;$('wShow').style.color='var(--gr)';toast('🎉 صحيح!');setTimeout(()=>nextDR(),1200);}
 }
-
 function addFeed(n,t,ok=false){
   const f=$('dFeed');const d=document.createElement('div');d.className='fm'+(ok?' fc':'');
   d.innerHTML=`<span class="fn">${n}</span><span class="ft">${t}</span>`;f.appendChild(d);f.scrollTop=f.scrollHeight;
 }
 
-// Canvas
 let ctx,cv2;
 function initCV(){
   cv2=$('cv');ctx=cv2.getContext('2d');cvResize();
@@ -934,19 +939,11 @@ function dCol(c,el){dColor=c;dErs=false;document.querySelectorAll('.cd').forEach
 function dSz(s,el){dSize=s;document.querySelectorAll('.szb').forEach(b=>b.classList.remove('on'));el.classList.add('on');}
 function dErase(){dErs=!dErs;$('erBtn').classList.toggle('on',dErs);document.querySelectorAll('.cd').forEach(b=>b.classList.remove('on'));}
 function dClear(){if(!ctx)return;ctx.fillStyle='#151528';ctx.fillRect(0,0,cv2.width,cv2.height);}
+function mkPListD(id,isHost,name=''){const el=$(id);if(!el)return;el.innerHTML='';const r=document.createElement('div');r.className='prow';r.innerHTML=`<div class="pav" style="background:var(--gold2)">👑</div><div class="pn">${isHost?'أنت (المضيف)':name+' (أنت)'}</div>${isHost?'<div class="ph">مضيف</div>':''}`;el.appendChild(r);}
 
-function mkPListD(id,isHost,name=''){
-  const el=$(id);if(!el)return;el.innerHTML='';
-  const r=document.createElement('div');r.className='prow';
-  r.innerHTML=`<div class="pav" style="background:var(--gold2)">👑</div><div class="pn">${isHost?'أنت (المضيف)':name+' (أنت)'}</div>${isHost?'<div class="ph">مضيف</div>':''}`;
-  el.appendChild(r);
-}
-
-// ══ INIT ══
 window.addEventListener('resize',cvResize);
 document.addEventListener('DOMContentLoaded',()=>{
   setupBluff();setupJudge();initCV();
-  // check URL for auto-join
   const params=new URLSearchParams(window.location.search);
   const joinCode=params.get('join');
   if(joinCode){$('bJCode').value=joinCode;go('bl-join');}
