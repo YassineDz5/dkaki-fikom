@@ -232,7 +232,7 @@ textarea.inp{resize:none}
     <div id="bPList" style="width:100%;max-width:340px"></div>
     <div style="width:100%;max-width:340px" class="g8">
       <button class="btn bgold" id="bStBtn" onclick="startBluff()" style="display:none">▶️ ابدأ اللعبة</button>
-      <button class="btn bout" onclick="cpCode('b')">📋 انسخ الكود</button>
+      <button class="btn bteal" onclick="toggleChat()">💬 الشات</button><button class="btn bout" onclick="cpCode('b')">📋 انسخ الكود</button><div id="chatPanel" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#1e1e30;border-top:1px solid #333355;padding:10px;z-index:40;flex-direction:column;gap:8px"><div style="display:flex;justify-content:space-between"><span style="font-weight:800">💬 الشات</span><span onclick="toggleChat()" style="cursor:pointer;color:#7878aa">✕</span></div><div id="chatMsgs" style="max-height:120px;overflow-y:auto;display:flex;flex-direction:column;gap:5px;margin:5px 0"></div><div style="display:flex;gap:8px"><input id="chatInp" placeholder="اكتب رسالة..." style="flex:1;background:#26263c;border:1.5px solid #333355;border-radius:10px;padding:9px 12px;font-family:Tajawal,sans-serif;font-size:14px;color:#eeeeff;outline:none;direction:rtl"><button onclick="sendChat()" style="background:#0fd4b4;border:none;border-radius:10px;padding:9px 14px;font-family:Tajawal,sans-serif;font-size:14px;font-weight:800;color:#000;cursor:pointer">إرسال</button></div></div>
     </div>
   </div>
 </div>
@@ -464,7 +464,7 @@ const $=id=>document.getElementById(id);
 function go(id){document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));$(id).classList.add('on');window.scrollTo(0,0);if(id==='draw-game')setTimeout(cvResize,100);}
 function toast(m,d=2200){const t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),d);}
 function showOvl(em,ti,su,cb,ms=1800){$('oEm').textContent=em;$('oTi').textContent=ti;$('oSu').textContent=su;$('ovl').classList.add('show');setTimeout(()=>{$('ovl').classList.remove('show');if(cb)cb();},ms);}
-function rnd4(){return Math.floor(1000+Math.random()*9000)+'';}
+function toggleChat(){var p=document.getElementById("chatPanel");p.style.display=p.style.display==="flex"?"none":"flex";}function sendChat(){var inp=document.getElementById("chatInp");var msg=inp.value.trim();if(!msg)return;inp.value="";socket.emit("chat",{code:myRoom,name:myName,msg:msg});}socket.on("chat",function(d){var msgs=document.getElementById("chatMsgs");if(!msgs)return;var div=document.createElement("div");div.style.cssText="font-size:12px;padding:4px 8px;border-radius:8px;background:#26263c";div.innerHTML="<span style=color:#0fd4b4;font-weight:700>"+d.name+"</span> <span style=color:#eeeeff>"+d.msg+"</span>";msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;});function rnd4(){return Math.floor(1000+Math.random()*9000)+'';}
 function shuffle(a){return[...a].sort(()=>Math.random()-.5);}
 function cpCode(t){const codes={b:myRoom,j:jRoom,d:dRoom};if(navigator.clipboard)navigator.clipboard.writeText(codes[t]);toast('📋 كود: '+codes[t]);}
 function makeQR(elId,text){const el=$(elId);if(!el)return;el.innerHTML='';try{new QRCode(el,{text,width:120,height:120,colorDark:'#000',colorLight:'#fff'});}catch(e){}}
