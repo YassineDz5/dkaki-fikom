@@ -208,7 +208,7 @@ textarea.inp{resize:none}
   </div>
   <div class="cat-grid" id="bCatGrid"><div class="cat-all" id="bAllBtn" onclick="toggleAll()">🎲 اختر الكل</div></div>
   <div class="p14 g8">
-    <div><span class="lbl">عدد الأسئلة</span><select class="inp" id="bQCnt"><option value="5">5</option><option value="8">8</option><option value="10" selected>10</option><option value="15">15</option><option value="20">20</option></select></div>
+    <div><span class="lbl">عدد الأسئلة</span><select class="inp" id="bQCnt"><option value="5">5</option><option value="8">8</option><option value="10" selected>10</option><option value="15">15</option><option value="20">20</option></select></div><div><span class="lbl">⏱️ وقت الإجابة</span><select class="inp" id="bTimer"><option value="15">15 ثانية</option><option value="30" selected>30 ثانية</option><option value="60">60 ثانية</option><option value="90">90 ثانية</option></select></div>
     <button class="btn bgr" onclick="openBWait()">🚀 افتح الغرفة</button>
   </div>
 </div>
@@ -672,16 +672,16 @@ function joinBluff(){
   socket.emit('join-room',{code,name});
 }
 
-function startBluff(){
+function startBluff(){const timer=parseInt(document.getElementById("bTimer")?document.getElementById("bTimer").value:30)||30;
   const cnt=parseInt($('bQCnt').value);
   let pool=[];
   selCats.forEach(k=>pool.push(...CATS[k].qs.map(q=>({...q,cat:k}))));
   bQs=shuffle(pool).slice(0,cnt);
   bIdx=0;bScores={};
-  socket.emit('start',{code:myRoom,qs:bQs});
+  socket.emit('start',{code:myRoom,qs:bQs,timer});
 }
 
-function restartBluff(){bIdx=0;bScores={};socket.emit('start',{code:myRoom,qs:bQs});}
+function restartBluff(){bIdx=0;bScores={};socket.emit('start',{code:myRoom,qs:bQs,timer});}
 
 function renderWriteScreen(q,i,total){
   const cat=CATS[q.cat]||CATS.culture;
