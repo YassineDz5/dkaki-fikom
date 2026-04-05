@@ -208,7 +208,7 @@ textarea.inp{resize:none}
   </div>
   <div class="cat-grid" id="bCatGrid"><div class="cat-all" id="bAllBtn" onclick="toggleAll()">🎲 اختر الكل</div></div>
   <div class="p14 g8">
-    <div><span class="lbl">عدد الأسئلة</span><select class="inp" id="bQCnt"><option value="5">5</option><option value="8">8</option><option value="10" selected>10</option><option value="15">15</option><option value="20">20</option></select></div><div><span class="lbl">⏱️ وقت الإجابة</span><select class="inp" id="bTimer"><option value="15">15 ثانية</option><option value="30" selected>30 ثانية</option><option value="60">60 ثانية</option><option value="90">90 ثانية</option></select></div>
+    <div><span class="lbl">عدد الأسئلة</span><select class="inp" id="bQCnt"><option value="5">5</option><option value="8">8</option><option value="10" selected>10</option><option value="15">15</option><option value="20">20</option></select></div>
     <button class="btn bgr" onclick="openBWait()">🚀 افتح الغرفة</button>
   </div>
 </div>
@@ -232,7 +232,7 @@ textarea.inp{resize:none}
     <div id="bPList" style="width:100%;max-width:340px"></div>
     <div style="width:100%;max-width:340px" class="g8">
       <button class="btn bgold" id="bStBtn" onclick="startBluff()" style="display:none">▶️ ابدأ اللعبة</button>
-      <button class="btn bteal" onclick="toggleChat()">💬 الشات</button><button class="btn bout" onclick="pauseGame()" id="pauseBtn" style="display:none">⏸️ إيقاف مؤقت</button><button class="btn bout" onclick="cpCode('b')">📋 انسخ الكود</button><div id="chatPanel" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#1e1e30;border-top:1px solid #333355;padding:10px;z-index:40;flex-direction:column;gap:8px"><div style="display:flex;justify-content:space-between"><span style="font-weight:800">💬 الشات</span><span onclick="toggleChat()" style="cursor:pointer;color:#7878aa">✕</span></div><div id="chatMsgs" style="max-height:120px;overflow-y:auto;display:flex;flex-direction:column;gap:5px;margin:5px 0"></div><div style="display:flex;gap:8px"><input id="chatInp" placeholder="اكتب رسالة..." style="flex:1;background:#26263c;border:1.5px solid #333355;border-radius:10px;padding:9px 12px;font-family:Tajawal,sans-serif;font-size:14px;color:#eeeeff;outline:none;direction:rtl"><button onclick="sendChat()" style="background:#0fd4b4;border:none;border-radius:10px;padding:9px 14px;font-family:Tajawal,sans-serif;font-size:14px;font-weight:800;color:#000;cursor:pointer">إرسال</button></div></div>
+      <button class="btn bout" onclick="cpCode('b')">📋 انسخ الكود</button>
     </div>
   </div>
 </div>
@@ -334,7 +334,7 @@ textarea.inp{resize:none}
     <div id="jPList" style="width:100%;max-width:340px"></div>
     <div style="width:100%;max-width:340px" class="g8">
       <button class="btn bpink" onclick="startJudge()">▶️ ابدأ</button>
-      <button class="btn bout" onclick="pauseGame()" id="pauseBtn" style="display:none">⏸️ إيقاف مؤقت</button><button class="btn bout" onclick="cpCode('j')">📋 انسخ الكود</button>
+      <button class="btn bout" onclick="cpCode('j')">📋 انسخ الكود</button>
     </div>
   </div>
 </div>
@@ -401,7 +401,7 @@ textarea.inp{resize:none}
     <div id="dPList" style="width:100%;max-width:340px"></div>
     <div style="width:100%;max-width:340px" class="g8">
       <button class="btn bteal" id="dStBtn" onclick="startDraw()">▶️ ابدأ</button>
-      <button class="btn bout" onclick="pauseGame()" id="pauseBtn" style="display:none">⏸️ إيقاف مؤقت</button><button class="btn bout" onclick="cpCode('d')">📋 انسخ الكود</button>
+      <button class="btn bout" onclick="cpCode('d')">📋 انسخ الكود</button>
     </div>
   </div>
 </div>
@@ -447,7 +447,7 @@ textarea.inp{resize:none}
   </div>
 </div>
 
-<div id="pauseOverlay" style="display:none;position:fixed;inset:0;background:rgba(14,14,26,.95);z-index:100;flex-direction:column;align-items:center;justify-content:center;gap:16px"><div style="font-size:48px">⏸️</div><div style="font-size:22px;font-weight:900;color:#eeeeff">اللعبة متوقفة مؤقتاً</div><div style="font-size:14px;color:#7878aa">تكمل تلقائياً بعد <span id="pauseTimer">60</span> ثانية</div><button onclick="resumeGame()" style="background:#0fd4b4;border:none;border-radius:14px;padding:13px 28px;font-family:Tajawal,sans-serif;font-size:16px;font-weight:800;color:#000;cursor:pointer">▶️ استمر الآن</button></div><div class="toast" id="toast"></div>
+<div class="toast" id="toast"></div>
 <div class="ovl" id="ovl"><div class="obox"><div style="font-size:46px;margin-bottom:8px" id="oEm"></div><div style="font-size:19px;font-weight:900;margin-bottom:5px" id="oTi"></div><div style="font-size:13px;color:var(--mu)" id="oSu"></div></div></div>
 
 <script>
@@ -464,7 +464,7 @@ const $=id=>document.getElementById(id);
 function go(id){document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));$(id).classList.add('on');window.scrollTo(0,0);if(id==='draw-game')setTimeout(cvResize,100);}
 function toast(m,d=2200){const t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),d);}
 function showOvl(em,ti,su,cb,ms=1800){$('oEm').textContent=em;$('oTi').textContent=ti;$('oSu').textContent=su;$('ovl').classList.add('show');setTimeout(()=>{$('ovl').classList.remove('show');if(cb)cb();},ms);}
-function toggleChat(){var p=document.getElementById("chatPanel");p.style.display=p.style.display==="flex"?"none":"flex";}function sendChat(){var inp=document.getElementById("chatInp");var msg=inp.value.trim();if(!msg)return;inp.value="";socket.emit("chat",{code:myRoom,name:myName,msg:msg});}socket.on("chat",function(d){var msgs=document.getElementById("chatMsgs");if(!msgs)return;var div=document.createElement("div");div.style.cssText="font-size:12px;padding:4px 8px;border-radius:8px;background:#26263c";div.innerHTML="<span style=color:#0fd4b4;font-weight:700>"+d.name+"</span> <span style=color:#eeeeff>"+d.msg+"</span>";msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;});socket.on("game-paused",function(d){var o=document.getElementById("pauseOverlay");if(o){o.style.display="flex";}var t=d.seconds;var iv=setInterval(function(){t--;var el=document.getElementById("pauseTimer");if(el)el.textContent=t;if(t<=0)clearInterval(iv);},1000);});socket.on("game-resumed",function(){var o=document.getElementById("pauseOverlay");if(o)o.style.display="none";});socket.on("kicked",function(msg){alert(msg);window.location.reload();});function pauseGame(){socket.emit("pause-game",{code:myRoom,name:myName});}function resumeGame(){socket.emit("resume-game",{code:myRoom});}function kickPlayer(id){if(confirm("هل تريد طرد هذا اللاعب؟"))socket.emit("kick-player",{code:myRoom,targetId:id});}function rnd4(){return Math.floor(1000+Math.random()*9000)+'';}
+function rnd4(){return Math.floor(1000+Math.random()*9000)+'';}
 function shuffle(a){return[...a].sort(()=>Math.random()-.5);}
 function cpCode(t){const codes={b:myRoom,j:jRoom,d:dRoom};if(navigator.clipboard)navigator.clipboard.writeText(codes[t]);toast('📋 كود: '+codes[t]);}
 function makeQR(elId,text){const el=$(elId);if(!el)return;el.innerHTML='';try{new QRCode(el,{text,width:120,height:120,colorDark:'#000',colorLight:'#fff'});}catch(e){}}
@@ -672,16 +672,16 @@ function joinBluff(){
   socket.emit('join-room',{code,name});
 }
 
-function startBluff(){const timer=parseInt(document.getElementById("bTimer")?document.getElementById("bTimer").value:30)||30;
+function startBluff(){
   const cnt=parseInt($('bQCnt').value);
   let pool=[];
   selCats.forEach(k=>pool.push(...CATS[k].qs.map(q=>({...q,cat:k}))));
   bQs=shuffle(pool).slice(0,cnt);
   bIdx=0;bScores={};
-  socket.emit('start',{code:myRoom,qs:bQs,timer});
+  socket.emit('start',{code:myRoom,qs:bQs});
 }
 
-function restartBluff(){bIdx=0;bScores={};socket.emit('start',{code:myRoom,qs:bQs,timer});}
+function restartBluff(){bIdx=0;bScores={};socket.emit('start',{code:myRoom,qs:bQs});}
 
 function renderWriteScreen(q,i,total){
   const cat=CATS[q.cat]||CATS.culture;
@@ -951,4 +951,3 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 </body>
 </html>
-<!-- v5 marker -->
