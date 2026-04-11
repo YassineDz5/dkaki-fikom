@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>ذكي فيكم</title>
+<title>ذكي فيكم v5</title>
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
@@ -209,6 +209,14 @@ textarea.inp{resize:none}
   <div class="cat-grid" id="bCatGrid"><div class="cat-all" id="bAllBtn" onclick="toggleAll()">🎲 اختر الكل</div></div>
   <div class="p14 g8">
     <div><span class="lbl">عدد الأسئلة</span><select class="inp" id="bQCnt"><option value="5">5</option><option value="8">8</option><option value="10" selected>10</option><option value="15">15</option><option value="20">20</option></select></div>
+    <div><span class="lbl">⏱️ وقت الإجابة</span><select class="inp" id="bTimer">
+      <option value="30" selected>30 ثانية</option>
+      <option value="45">45 ثانية</option>
+      <option value="60">1 دقيقة</option>
+      <option value="90">1:30 دقيقة</option>
+      <option value="120">2 دقيقة</option>
+      <option value="180">3 دقائق</option>
+    </select></div>
     <button class="btn bgr" onclick="openBWait()">🚀 افتح الغرفة</button>
   </div>
 </div>
@@ -232,14 +240,23 @@ textarea.inp{resize:none}
     <div id="bPList" style="width:100%;max-width:340px"></div>
     <div style="width:100%;max-width:340px" class="g8">
       <button class="btn bgold" id="bStBtn" onclick="startBluff()" style="display:none">▶️ ابدأ اللعبة</button>
+      <button class="btn bout" id="bPauseBtn" onclick="doPause()" style="display:none">⏸️ إيقاف مؤقت</button>
       <button class="btn bout" onclick="cpCode('b')">📋 انسخ الكود</button>
     </div>
   </div>
-</div>
+  <!-- CHAT PANEL -->
+  <div id="chatPanel" style="display:none;position:fixed;bottom:0;left:0;right:0;background:var(--c2);border-top:1px solid var(--br);padding:10px;z-index:40;max-height:50vh;display:none;flex-direction:column;gap:8px">
+    <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:800;font-size:14px">💬 الشات</span><span onclick="toggleChat()" style="cursor:pointer;font-size:20px;color:var(--mu)">✕</span></div>
+    <div id="chatMsgs" style="flex:1;overflow-y:auto;max-height:150px;display:flex;flex-direction:column;gap:5px"></div>
+    <div style="display:flex;gap:8px">
+      <input class="inp" id="chatInp" placeholder="اكتب رسالة..." style="flex:1;padding:9px 12px">
+      <button onclick="sendChat()" style="background:var(--teal);border:none;border-radius:10px;padding:9px 14px;font-family:'Tajawal',sans-serif;font-size:14px;font-weight:800;color:#000;cursor:pointer">إرسال</button>
+    </div>
+  </div>
 
 <!-- BLUFF WRITE -->
 <div id="bl-write" class="sc">
-  <div class="topbar" style="padding-bottom:0"><div style="flex:1"><div class="progtop"><span>سؤال <span id="bwN">1</span>/<span id="bwT">10</span></span><span style="color:var(--gold);font-weight:800" id="bwMyPts">0 ⭐</span></div><div class="prog"><div class="progf" id="bwProg" style="width:10%"></div></div></div></div>
+  <div class="topbar" style="padding-bottom:0"><div style="flex:1"><div class="progtop"><span>سؤال <span id="bwN">1</span>/<span id="bwT">10</span></span><span style="color:var(--gold);font-weight:800" id="bwMyPts">0 ⭐</span></div><div class="prog"><div class="progf" id="bwProg" style="width:10%"></div></div></div><div id="bwTimerCircle" style="width:42px;height:42px;border-radius:50%;background:conic-gradient(var(--gold) 100%,var(--c3) 0);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;margin-right:4px;flex-shrink:0"><span id="bwTimerNum">30</span></div></div>
   <div class="lsbar"><div class="lsl">📊 النقاط</div><div id="bwLS" style="display:flex;flex-wrap:wrap"></div></div>
   <div class="p14 g12">
     <div style="display:inline-flex;align-items:center;gap:6px;background:var(--c3);border:1px solid var(--br);border-radius:99px;padding:5px 12px;font-size:11px;font-weight:700;color:var(--mu)" id="bwBdg">✍️ اكتب إجابتك</div>
@@ -447,19 +464,28 @@ textarea.inp{resize:none}
   </div>
 </div>
 
+<div id="pauseOvl" style="display:none;position:fixed;inset:0;background:rgba(14,14,26,.96);z-index:80;flex-direction:column;align-items:center;justify-content:center;gap:16px">
+  <div style="font-size:52px">⏸️</div>
+  <div style="font-size:20px;font-weight:900">اللعبة متوقفة مؤقتاً</div>
+  <div style="font-size:14px;color:var(--mu)">بواسطة: <span id="pauseBy" style="color:var(--gold)"></span></div>
+  <div style="font-size:28px;font-weight:900;color:var(--gold)" id="pauseCount">60</div>
+  <div style="font-size:12px;color:var(--mu)">تكمل تلقائياً</div>
+  <button id="resumeBtn" onclick="doResume()" style="display:none;background:var(--teal);border:none;border-radius:14px;padding:13px 28px;font-family:Tajawal,sans-serif;font-size:16px;font-weight:800;color:#000;cursor:pointer">▶️ استمر الآن</button>
+</div>
+
+<div id="chatPanel" style="display:none;position:fixed;bottom:0;left:0;right:0;background:var(--c2);border-top:2px solid var(--br2);padding:10px;z-index:60;flex-direction:column;gap:8px;max-height:45vh">
+  <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:800;font-size:14px">💬 الشات</span><span onclick="toggleChat()" style="cursor:pointer;color:var(--mu);font-size:22px">✕</span></div>
+  <div id="chatMsgs" style="flex:1;overflow-y:auto;max-height:150px;display:flex;flex-direction:column;gap:5px"></div>
+  <div style="display:flex;gap:8px">
+    <input class="inp" id="chatInp" placeholder="اكتب رسالة..." style="flex:1;padding:9px 12px" onkeydown="if(event.key==='Enter')sendChat()">
+    <button onclick="sendChat()" style="background:var(--teal);border:none;border-radius:10px;padding:9px 14px;font-family:Tajawal,sans-serif;font-size:14px;font-weight:800;color:#000;cursor:pointer">إرسال</button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 <div class="ovl" id="ovl"><div class="obox"><div style="font-size:46px;margin-bottom:8px" id="oEm"></div><div style="font-size:19px;font-weight:900;margin-bottom:5px" id="oTi"></div><div style="font-size:13px;color:var(--mu)" id="oSu"></div></div></div>
 
 <script>
-const socket=io();
-let myId='',myName='',myRoom='',isHost=false;
-let bQs=[],bIdx=0,bScores={},bPhase='init';
-let bCorr='',bMyAns='',bMyOrigAns='',bBluff='',bVOpts=[],bVIdx=-1;
-let selCats=new Set(['culture']);
-let jRoom='',jQ_='',jAns_='',jHint_='',jScores={};
-let dRoom='',dRound=1,dTR=3,dIsD=true,dWord='',dTmr=null,dTime=60;
-let dColor='#ffffff',dSize=4,dErs=false,dAct=false,dLx=0,dLy=0;
-
 const $=id=>document.getElementById(id);
 function go(id){document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));$(id).classList.add('on');window.scrollTo(0,0);if(id==='draw-game')setTimeout(cvResize,100);}
 function toast(m,d=2200){const t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),d);}
@@ -468,6 +494,15 @@ function rnd4(){return Math.floor(1000+Math.random()*9000)+'';}
 function shuffle(a){return[...a].sort(()=>Math.random()-.5);}
 function cpCode(t){const codes={b:myRoom,j:jRoom,d:dRoom};if(navigator.clipboard)navigator.clipboard.writeText(codes[t]);toast('📋 كود: '+codes[t]);}
 function makeQR(elId,text){const el=$(elId);if(!el)return;el.innerHTML='';try{new QRCode(el,{text,width:120,height:120,colorDark:'#000',colorLight:'#fff'});}catch(e){}}
+
+const socket=io();
+let myId='',myName='',myRoom='',isHost=false;
+let bQs=[],bIdx=0,bScores={},bPhase='init';
+let bCorr='',bMyAns='',bMyOrigAns='',bBluff='',bVOpts=[],bVIdx=-1;
+let selCats=new Set(['culture']);
+let jRoom='',jQ_='',jAns_='',jHint_='',jScores={};
+let dRoom='',dRound=1,dTR=3,dIsD=true,dWord='',dTmr=null,dTime=60;
+let dColor='#ffffff',dSize=4,dErs=false,dAct=false,dLx=0,dLy=0;
 
 // ══ AI CHECK — أخطاء كتابية فقط ══
 function aiCheck(u,c){
@@ -551,8 +586,105 @@ const CATS={
   tech:{n:'تكنولوجيا',e:'💻',c:'#8855ee',b:'rgba(136,85,238,.15)',qs:[
     {q:'من أسس Apple؟',a:'جوبز'},{q:'اختصار CPU؟',a:'وحدة المعالجة'},{q:'من اخترع الإنترنت؟',a:'بيرنرز لي'},{q:'اختصار AI؟',a:'ذكاء اصطناعي'},{q:'من أسس Microsoft؟',a:'غيتس'},{q:'اختصار USB؟',a:'ناقل تسلسلي'},{q:'من أسس Tesla؟',a:'ماسك'},{q:'أول لعبة فيديو؟',a:'Pong'},{q:'اختصار RAM؟',a:'ذاكرة الوصول العشوائي'},{q:'من أسس Amazon؟',a:'بيزوس'},{q:'ما لغة برمجة أندرويد؟',a:'Java'},{q:'من صنع ChatGPT؟',a:'OpenAI'},{q:'ما أسرع معالج في العالم؟',a:'يتغير باستمرار'},{q:'ما اختصار WWW؟',a:'شبكة الويب العالمية'},{q:'من أسس Google؟',a:'برين وبيج'},{q:'ما أكثر لغة برمجة استخداماً؟',a:'Python'},{q:'ما اختصار HTML؟',a:'لغة ترميز النص'},{q:'من أسس Meta؟',a:'زوكربرغ'},{q:'ما أكثر تطبيق تحميلاً في التاريخ؟',a:'TikTok'},{q:'ما اختصار GPS؟',a:'نظام تحديد المواقع'},
   ]},
-  algeria:{n:'الجزائر 🇩🇿',e:'🇩🇿',c:'#20cc60',b:'rgba(32,204,96,.15)',qs:[
+  algeria:{n:'الجزائر',e:'🇩🇿',c:'#20cc60',b:'rgba(32,204,96,.15)',qs:[
     {q:'عاصمة الجزائر؟',a:'الجزائر العاصمة'},{q:'متى استقلت الجزائر؟',a:'1962'},{q:'أطول جبل في الجزائر؟',a:'تاهات'},{q:'اللغة الرسمية للجزائر؟',a:'العربية'},{q:'عملة الجزائر؟',a:'الدينار'},{q:'أول رئيس للجزائر؟',a:'بن بلة'},{q:'الرياضة الأكثر شعبية؟',a:'كرة القدم'},{q:'عدد ولايات الجزائر؟',a:'58'},{q:'أشهر أكلة جزائرية؟',a:'الكسكس'},{q:'ما أكبر ولاية في الجزائر؟',a:'تمنراست'},{q:'ما الموقع الجغرافي للجزائر؟',a:'شمال أفريقيا'},{q:'ما ثاني أكبر مدينة في الجزائر؟',a:'وهران'},{q:'متى بدأت الثورة الجزائرية؟',a:'1954'},{q:'ما عدد سكان الجزائر تقريباً؟',a:'45 مليون'},{q:'ما الجبل الشهير في الجزائر؟',a:'جرجرة'},{q:'من هو رمز الثورة الجزائرية؟',a:'الأمير عبدالقادر'},{q:'ما اللباس التقليدي الجزائري؟',a:'البرنوس'},{q:'ما أشهر موسيقى جزائرية؟',a:'الراي'},{q:'ما المدينة الجزائرية المعروفة بالبيوت البيضاء؟',a:'الجزائر العاصمة'},{q:'ما دور الجزائر في أفريقيا؟',a:'أكبر دولة أفريقية'},
+  ]},
+  flags:{n:'أعلام الدول',e:'🏳️',c:'#f02848',b:'rgba(240,40,72,.15)',qs:[
+    {q:'ما هذا العلم؟',a:'فرنسا',img:'https://flagcdn.com/w320/fr.png'},
+    {q:'ما هذا العلم؟',a:'ألمانيا',img:'https://flagcdn.com/w320/de.png'},
+    {q:'ما هذا العلم؟',a:'إيطاليا',img:'https://flagcdn.com/w320/it.png'},
+    {q:'ما هذا العلم؟',a:'إسبانيا',img:'https://flagcdn.com/w320/es.png'},
+    {q:'ما هذا العلم؟',a:'البرازيل',img:'https://flagcdn.com/w320/br.png'},
+    {q:'ما هذا العلم؟',a:'الأرجنتين',img:'https://flagcdn.com/w320/ar.png'},
+    {q:'ما هذا العلم؟',a:'اليابان',img:'https://flagcdn.com/w320/jp.png'},
+    {q:'ما هذا العلم؟',a:'الصين',img:'https://flagcdn.com/w320/cn.png'},
+    {q:'ما هذا العلم؟',a:'أمريكا',img:'https://flagcdn.com/w320/us.png'},
+    {q:'ما هذا العلم؟',a:'بريطانيا',img:'https://flagcdn.com/w320/gb.png'},
+    {q:'ما هذا العلم؟',a:'البرتغال',img:'https://flagcdn.com/w320/pt.png'},
+    {q:'ما هذا العلم؟',a:'هولندا',img:'https://flagcdn.com/w320/nl.png'},
+    {q:'ما هذا العلم؟',a:'بلجيكا',img:'https://flagcdn.com/w320/be.png'},
+    {q:'ما هذا العلم؟',a:'السويد',img:'https://flagcdn.com/w320/se.png'},
+    {q:'ما هذا العلم؟',a:'سويسرا',img:'https://flagcdn.com/w320/ch.png'},
+    {q:'ما هذا العلم؟',a:'أستراليا',img:'https://flagcdn.com/w320/au.png'},
+    {q:'ما هذا العلم؟',a:'كندا',img:'https://flagcdn.com/w320/ca.png'},
+    {q:'ما هذا العلم؟',a:'تركيا',img:'https://flagcdn.com/w320/tr.png'},
+    {q:'ما هذا العلم؟',a:'كوريا الجنوبية',img:'https://flagcdn.com/w320/kr.png'},
+    {q:'ما هذا العلم؟',a:'المكسيك',img:'https://flagcdn.com/w320/mx.png'},
+  ]},
+  arabflags:{n:'الأعلام العربية',e:'🌙',c:'#c8a020',b:'rgba(200,160,32,.15)',qs:[
+    {q:'ما هذا العلم؟',a:'الجزائر',img:'https://flagcdn.com/w320/dz.png'},
+    {q:'ما هذا العلم؟',a:'المغرب',img:'https://flagcdn.com/w320/ma.png'},
+    {q:'ما هذا العلم؟',a:'تونس',img:'https://flagcdn.com/w320/tn.png'},
+    {q:'ما هذا العلم؟',a:'مصر',img:'https://flagcdn.com/w320/eg.png'},
+    {q:'ما هذا العلم؟',a:'السعودية',img:'https://flagcdn.com/w320/sa.png'},
+    {q:'ما هذا العلم؟',a:'الإمارات',img:'https://flagcdn.com/w320/ae.png'},
+    {q:'ما هذا العلم؟',a:'قطر',img:'https://flagcdn.com/w320/qa.png'},
+    {q:'ما هذا العلم؟',a:'الكويت',img:'https://flagcdn.com/w320/kw.png'},
+    {q:'ما هذا العلم؟',a:'العراق',img:'https://flagcdn.com/w320/iq.png'},
+    {q:'ما هذا العلم؟',a:'سوريا',img:'https://flagcdn.com/w320/sy.png'},
+    {q:'ما هذا العلم؟',a:'الأردن',img:'https://flagcdn.com/w320/jo.png'},
+    {q:'ما هذا العلم؟',a:'لبنان',img:'https://flagcdn.com/w320/lb.png'},
+    {q:'ما هذا العلم؟',a:'ليبيا',img:'https://flagcdn.com/w320/ly.png'},
+    {q:'ما هذا العلم؟',a:'فلسطين',img:'https://flagcdn.com/w320/ps.png'},
+    {q:'ما هذا العلم؟',a:'عمان',img:'https://flagcdn.com/w320/om.png'},
+    {q:'ما هذا العلم؟',a:'البحرين',img:'https://flagcdn.com/w320/bh.png'},
+    {q:'ما هذا العلم؟',a:'اليمن',img:'https://flagcdn.com/w320/ye.png'},
+    {q:'ما هذا العلم؟',a:'السودان',img:'https://flagcdn.com/w320/sd.png'},
+    {q:'ما هذا العلم؟',a:'موريتانيا',img:'https://flagcdn.com/w320/mr.png'},
+    {q:'ما هذا العلم؟',a:'الصومال',img:'https://flagcdn.com/w320/so.png'},
+  ]},
+  players:{n:'من هذا اللاعب؟',e:'⭐',c:'#3888f0',b:'rgba(56,136,240,.15)',qs:[
+    {q:'من هذا اللاعب؟',a:'ميسي',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg/320px-Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg'},
+    {q:'من هذا اللاعب؟',a:'رونالدو',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Cristiano_Ronaldo_2018.jpg/320px-Cristiano_Ronaldo_2018.jpg'},
+    {q:'من هذا اللاعب؟',a:'نيمار',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Neymar_in_2019.jpg/320px-Neymar_in_2019.jpg'},
+    {q:'من هذا اللاعب؟',a:'محمد صلاح',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Mohamed_Salah_2018.jpg/320px-Mohamed_Salah_2018.jpg'},
+    {q:'من هذا اللاعب؟',a:'رياض محرز',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Riyad_Mahrez_2018.jpg/320px-Riyad_Mahrez_2018.jpg'},
+    {q:'من هذا اللاعب؟',a:'كريم بنزيمة',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Karim_Benzema_2019_%28cropped%29.jpg/320px-Karim_Benzema_2019_%28cropped%29.jpg'},
+    {q:'من هذا اللاعب؟',a:'إيرلينغ هالاند',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Erling_Haaland_2023.jpg/320px-Erling_Haaland_2023.jpg'},
+    {q:'من هذا اللاعب؟',a:'كيفن دي بروين',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Kevin_De_Bruyne_2021.jpg/320px-Kevin_De_Bruyne_2021.jpg'},
+    {q:'من هذا اللاعب؟',a:'لوكا مودريتش',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Luka_Modric_2019_%28cropped%29.jpg/320px-Luka_Modric_2019_%28cropped%29.jpg'},
+    {q:'من هذا اللاعب؟',a:'هاري كين',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Harry_Kane_%28cropped%29.jpg/320px-Harry_Kane_%28cropped%29.jpg'},
+    {q:'من هذا اللاعب؟',a:'فينيسيوس جونيور',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Vinicius_Jr_2022.jpg/320px-Vinicius_Jr_2022.jpg'},
+    {q:'من هذا اللاعب؟',a:'كيليان مبابي',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Kylian_Mbapp%C3%A9_in_2023.jpg/320px-Kylian_Mbapp%C3%A9_in_2023.jpg'},
+    {q:'من هذا اللاعب؟',a:'روبرت ليفاندوفسكي',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Robert_Lewandowski%2C_FC_Bayern_M%C3%BCnchen_%28by_Sven_Mandel%2C_2019-10-05%29_02.jpg/320px-Robert_Lewandowski%2C_FC_Bayern_M%C3%BCnchen_%28by_Sven_Mandel%2C_2019-10-05%29_02.jpg'},
+    {q:'من هذا اللاعب؟',a:'ساديو ماني',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Sadio_Man%C3%A9_2022_%28cropped%29.jpg/320px-Sadio_Man%C3%A9_2022_%28cropped%29.jpg'},
+    {q:'من هذا اللاعب؟',a:'أنطوان غريزمان',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Antoine_Griezmann_2018.jpg/320px-Antoine_Griezmann_2018.jpg'},
+    {q:'من هذا اللاعب؟',a:'فيل فودن',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Phil_Foden_2021.jpg/320px-Phil_Foden_2021.jpg'},
+    {q:'من هذا اللاعب؟',a:'بيدري',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Pedri_2021.jpg/320px-Pedri_2021.jpg'},
+    {q:'من هذا اللاعب؟',a:'فيرجيل فان دايك',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Virgil_van_Dijk_2019.jpg/320px-Virgil_van_Dijk_2019.jpg'},
+    {q:'من هذا اللاعب؟',a:'بوكايو ساكا',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Bukayo_Saka_2022.jpg/320px-Bukayo_Saka_2022.jpg'},
+    {q:'من هذا اللاعب؟',a:'جمال مسيالا',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Jamal_Musiala_2022.jpg/320px-Jamal_Musiala_2022.jpg'},
+  ]},
+
+  arabic:{n:'اللغة العربية',e:'📝',c:'#f0c84a',b:'rgba(240,200,74,.15)',qs:[
+    {q:'ما جمع كلمة "كتاب"؟',a:'كتب'},{q:'ما مفرد كلمة "أقلام"؟',a:'قلم'},{q:'ما ضد كلمة "كبير"؟',a:'صغير'},{q:'ما معنى كلمة "فصيح"؟',a:'واضح البيان'},{q:'كم حرف في الأبجدية العربية؟',a:'28'},{q:'ما الفعل الماضي من "يكتب"؟',a:'كتب'},{q:'ما مؤنث كلمة "طالب"؟',a:'طالبة'},{q:'ما جمع كلمة "مدينة"؟',a:'مدن'},{q:'ما معنى كلمة "بليغ"؟',a:'فصيح'},{q:'ما ضد كلمة "النهار"؟',a:'الليل'},{q:'ما جمع كلمة "بيت"؟',a:'بيوت'},{q:'ما الفعل المضارع من "أكل"؟',a:'يأكل'},{q:'ما مفرد "أيام"؟',a:'يوم'},{q:'ما معنى "الفصحى"؟',a:'العربية السليمة'},{q:'ما ضد "الغني"؟',a:'الفقير'},{q:'ما جمع "قصيدة"؟',a:'قصائد'},{q:'ما مؤنث "ملك"؟',a:'ملكة'},{q:'ما أصل كلمة "تلفزيون"؟',a:'يوناني ولاتيني'},{q:'ما معنى "الاستعارة"؟',a:'تشبيه بدون أداة'},{q:'ما ضد "الحق"؟',a:'الباطل'},
+  ]},
+  cars:{n:'سيارات',e:'🚗',c:'#3888f0',b:'rgba(56,136,240,.15)',qs:[
+    {q:'من أسس شركة Ferrari؟',a:'إنزو فيراري'},{q:'من أي دولة BMW؟',a:'ألمانيا'},{q:'ما أسرع سيارة في العالم؟',a:'بوغاتي شيرون'},{q:'من أسس شركة Ford؟',a:'هنري فورد'},{q:'ما عاصمة صناعة السيارات في أمريكا؟',a:'ديترويت'},{q:'من أي دولة Toyota؟',a:'اليابان'},{q:'ما أول سيارة في التاريخ؟',a:'بنز باتنت موتوروفاغن'},{q:'ما أغلى سيارة في العالم؟',a:'رولز رويس'},{q:'من أي دولة Lamborghini؟',a:'إيطاليا'},{q:'ما معنى BMW اختصاراً؟',a:'بايريشه موتورن ويرك'},{q:'من أسس Tesla؟',a:'إيلون ماسك'},{q:'ما أكثر سيارة مبيعاً في العالم؟',a:'تويوتا كورولا'},{q:'من أي دولة Volvo؟',a:'السويد'},{q:'ما أول سيارة كهربائية؟',a:'تيسلا رودستر'},{q:'من أي دولة Hyundai؟',a:'كوريا الجنوبية'},{q:'ما معنى FIAT اختصاراً؟',a:'شركة إيطالية للسيارات'},{q:'من أسس Porsche؟',a:'فيرديناند بورش'},{q:'ما عدد عجلات السيارة عادةً؟',a:'4'},{q:'من أي دولة Renault؟',a:'فرنسا'},{q:'ما أقدم ماركة سيارات؟',a:'بنز'},
+  ]},
+  cooking:{n:'الطبخ والوصفات',e:'👨‍🍳',c:'#f59e0b',b:'rgba(245,158,11,.15)',qs:[
+    {q:'كم دقيقة لسلق البيضة المسلوقة تماماً؟',a:'10 دقائق'},{q:'ما درجة حرارة الزيت للقلي؟',a:'180 درجة'},{q:'ما الفرق بين الشوي والقلي؟',a:'الشوي بدون زيت'},{q:'ما أفضل نوع دقيق للخبز؟',a:'القمح الكامل'},{q:'كم كوب دقيق في كيلو؟',a:'8 أكواب'},{q:'ما الخميرة؟',a:'عامل تخمير يرفع العجين'},{q:'ما أفضل طريقة لطهي السمك؟',a:'الشوي أو البخار'},{q:'كم دقيقة لطبخ الأرز؟',a:'20 دقيقة'},{q:'ما الفرق بين البهارات والتوابل؟',a:'نفس المعنى تقريباً'},{q:'ما أصل كلمة chef؟',a:'فرنسي'},{q:'كم درجة لخبز الخبز؟',a:'220 درجة'},{q:'ما الطريقة الصحية للطبخ؟',a:'البخار'},{q:'ما الكراميل؟',a:'سكر مذاب ومكرمل'},{q:'ما أفضل زيت للقلي؟',a:'زيت جوز الهند'},{q:'كم دقيقة للشواء المتوسط؟',a:'5 دقائق لكل جانب'},{q:'ما الفرق بين الكيك والبسكويت؟',a:'الكيك أكثر رطوبة'},{q:'ما طريقة الطبخ البطيء؟',a:'slow cooker'},{q:'ما Blanching؟',a:'سلق سريع ثم تبريد'},{q:'ما أكثر توابل استخداماً في العالم؟',a:'الفلفل الأسود'},{q:'كم بيضة في دجاجة واحدة سنوياً؟',a:'250 بيضة'},
+  ]},
+  islam_history:{n:'التاريخ الإسلامي',e:'🕌',c:'#20cc60',b:'rgba(32,204,96,.15)',qs:[
+    {q:'متى هجرة النبي ﷺ؟',a:'622 م'},{q:'من أول خليفة في الإسلام؟',a:'أبو بكر الصديق'},{q:'متى فتح مكة؟',a:'630 م'},{q:'من قائد معركة اليرموك؟',a:'خالد بن الوليد'},{q:'متى نشأت الدولة الأموية؟',a:'661 م'},{q:'من مؤسس الدولة العباسية؟',a:'أبو العباس السفاح'},{q:'من فتح الأندلس؟',a:'طارق بن زياد'},{q:'متى سقوط الأندلس؟',a:'1492 م'},{q:'من أشهر خليفة عباسي؟',a:'هارون الرشيد'},{q:'متى معركة بدر؟',a:'624 م'},{q:'من أول من أسلم من الرجال؟',a:'أبو بكر الصديق'},{q:'ما عاصمة الدولة الأموية؟',a:'دمشق'},{q:'ما عاصمة الدولة العباسية؟',a:'بغداد'},{q:'من بنى المسجد النبوي؟',a:'النبي محمد ﷺ'},{q:'متى غزوة أحد؟',a:'625 م'},{q:'من قاد الجيش الإسلامي في حطين؟',a:'صلاح الدين'},{q:'متى حطين؟',a:'1187 م'},{q:'من بنى قبة الصخرة؟',a:'عبد الملك بن مروان'},{q:'ما أول مسجد في الإسلام؟',a:'مسجد قباء'},{q:'من أول امرأة تسلم؟',a:'خديجة رضي الله عنها'},
+  ]},
+  body:{n:'جسم الإنسان',e:'🫀',c:'#e83888',b:'rgba(232,56,136,.15)',qs:[
+    {q:'كم عظمة في جسم الإنسان؟',a:'206'},{q:'كم لتر دم في الجسم؟',a:'5 لتر'},{q:'ما أكبر عضو في الجسم؟',a:'الجلد'},{q:'كم نبضة للقلب في الدقيقة؟',a:'60-100'},{q:'ما أسرع خلية في الجسم؟',a:'خلايا الدم الحمراء'},{q:'كم عدد عضلات الجسم؟',a:'600 عضلة'},{q:'ما وظيفة الكبد؟',a:'تنقية الدم'},{q:'كم دقيقة يعيش الدماغ بدون أكسجين؟',a:'4-6 دقائق'},{q:'ما أصغر عظمة في الجسم؟',a:'الركابة في الأذن'},{q:'كم رئة عند الإنسان؟',a:'2'},{q:'ما وظيفة الكلى؟',a:'تنقية الدم وإنتاج البول'},{q:'كم طول الأمعاء الدقيقة؟',a:'7 أمتار'},{q:'ما أقوى عضلة في الجسم؟',a:'عضلة الفك'},{q:'كم خلية دم حمراء في الجسم؟',a:'25 تريليون'},{q:'ما البروتين الموجود في الشعر؟',a:'الكيراتين'},{q:'كم نوع دم عند الإنسان؟',a:'4 أنواع'},{q:'ما وظيفة الطحال؟',a:'تكوين خلايا الدم وتخزينها'},{q:'كم سنة تتجدد خلايا الجسم؟',a:'7 سنوات'},{q:'ما أطول عصب في الجسم؟',a:'العصب الوركي'},{q:'كم درجة حرارة الجسم الطبيعية؟',a:'37 درجة'},
+  ]},
+  math_hard:{n:'رياضيات متقدمة',e:'🧮',c:'#0fd4b4',b:'rgba(15,212,180,.15)',qs:[
+    {q:'كم يساوي 15×15؟',a:'225'},{q:'ما جذر 256؟',a:'16'},{q:'كم يساوي 2 أس 10؟',a:'1024'},{q:'ما قيمة Pi إلى 4 أرقام؟',a:'3.141'},{q:'ما مساحة دائرة نصف قطرها 5؟',a:'78.5'},{q:'كم يساوي 100 ÷ 4 × 3؟',a:'75'},{q:'ما الأعداد الأولية بين 1 و10؟',a:'2,3,5,7'},{q:'كم يساوي 7 × 8؟',a:'56'},{q:'ما حجم مكعب طول ضلعه 3؟',a:'27'},{q:'كم يساوي 1000 ÷ 25؟',a:'40'},{q:'ما الجذر التربيعي لـ 169؟',a:'13'},{q:'كم يساوي 12 × 11؟',a:'132'},{q:'ما مجموع زوايا المثلث؟',a:'180 درجة'},{q:'ما مجموع زوايا المربع؟',a:'360 درجة'},{q:'كم يساوي 25²؟',a:'625'},{q:'ما نسبة 3 من 12؟',a:'25%'},{q:'كم يساوي 999 + 1؟',a:'1000'},{q:'ما ناتج 6!؟',a:'720'},{q:'كم يساوي 0.5 × 200؟',a:'100'},{q:'ما الرقم الأولي بعد 11؟',a:'13'},
+  ]},
+  animals_hard:{n:'عالم الحيوانات',e:'🐾',c:'#f59e0b',b:'rgba(245,158,11,.15)',qs:[
+    {q:'ما أذكى حيوان في البحر؟',a:'الدلفين'},{q:'كم سنة تعيش السلحفاة؟',a:'150 سنة'},{q:'ما أكبر قرد في العالم؟',a:'الغوريلا'},{q:'كم قدم للخرطوم؟',a:'خمسة أصابع'},{q:'ما الحيوان الوحيد الذي لا ينام؟',a:'لا يوجد'},{q:'كم بيضة تضع السلحفاة؟',a:'100 بيضة'},{q:'ما أسرع طائر في العالم؟',a:'صقر الشاهين'},{q:'كم طول الزرافة؟',a:'6 أمتار'},{q:'ما أثقل حيوان بري؟',a:'الفيل الأفريقي'},{q:'ما الحيوان الذي لا يشرب ماء؟',a:'الكنغر الجرذي'},{q:'كم أسنان الفيل؟',a:'4 أسنان'},{q:'ما صوت الأسد؟',a:'الزئير'},{q:'كم وزن القطب الشمالي؟',a:'450 كيلو'},{q:'ما الحيوان الذي ينام وهو واقف؟',a:'الحصان والزرافة'},{q:'كم عمر الببغاء؟',a:'80 سنة'},{q:'ما أكثر حيوان في العالم؟',a:'النمل'},{q:'كم قلب للأخطبوط؟',a:'3'},{q:'ما الحيوان الوحيد بخلاف الإنسان له بصمات أصابع؟',a:'الكوالا'},{q:'كم وزن الحوت الأزرق؟',a:'150 طن'},{q:'ما أطول حيوان في العالم؟',a:'الزرافة'},
+  ]},
+  science_hard:{n:'علوم متقدمة',e:'⚗️',c:'#8855ee',b:'rgba(136,85,238,.15)',qs:[
+    {q:'ما عدد بروتونات الذهب؟',a:'79'},{q:'ما الاسم العلمي للماء؟',a:'H2O'},{q:'ما الرمز الكيميائي للحديد؟',a:'Fe'},{q:'ما الرمز الكيميائي للفضة؟',a:'Ag'},{q:'ما أخف عنصر في الكون؟',a:'الهيدروجين'},{q:'ما درجة انصهار الحديد؟',a:'1538 درجة'},{q:'ما نظرية داروين؟',a:'التطور والانتخاب الطبيعي'},{q:'ما المادة الأكثر توصيلاً للكهرباء؟',a:'الفضة'},{q:'ما أقسى مادة في الطبيعة؟',a:'الماس'},{q:'ما الكيمياء العضوية؟',a:'كيمياء مركبات الكربون'},{q:'كم سرعة الصوت في الهواء؟',a:'343 م/ث'},{q:'ما قانون نيوتن الثالث؟',a:'لكل فعل رد فعل مساوٍ'},{q:'ما الطاقة الحرارية؟',a:'حركة الجزيئات'},{q:'ما أطول موجة كهرومغناطيسية؟',a:'موجات الراديو'},{q:'ما اللاهوائية في الأحياء؟',a:'كائنات لا تحتاج أكسجين'},{q:'كم درجة تجمد النيتروجين السائل؟',a:'-196 درجة'},{q:'ما البلازما؟',a:'الحالة الرابعة للمادة'},{q:'ما أصغر جسيم في الذرة؟',a:'الكواركات'},{q:'ما قانون أوم؟',a:'V=IR'},{q:'كم سرعة الأرض حول الشمس؟',a:'30 كم/ث'},
+  ]},
+  geography_hard:{n:'جغرافيا متقدمة',e:'🌐',c:'#0fd4b4',b:'rgba(15,212,180,.15)',qs:[
+    {q:'ما أعمق نقطة في المحيطات؟',a:'بحيرة ماريانا'},{q:'ما أطول سلسلة جبال في العالم؟',a:'جبال الأنديز'},{q:'ما أكبر دولة في أمريكا الجنوبية؟',a:'البرازيل'},{q:'ما أطول نهر في أسيا؟',a:'يانغتسي'},{q:'في أي قارة الصحراء الكبرى؟',a:'أفريقيا'},{q:'ما عاصمة إندونيسيا الجديدة؟',a:'نوسانتارا'},{q:'كم دولة في أفريقيا؟',a:'54'},{q:'ما أكبر بحيرة في أفريقيا؟',a:'فيكتوريا'},{q:'ما أكبر جزيرة في العالم؟',a:'غرينلاند'},{q:'ما أعلى عاصمة في العالم؟',a:'لاباز'},{q:'ما أصغر دولة في آسيا؟',a:'المالديف'},{q:'ما أطول حدود بين دولتين؟',a:'أمريكا وكندا'},{q:'في أي قارة أطول نهر؟',a:'أفريقيا'},{q:'ما المحيط الأصغر؟',a:'المحيط القطبي الشمالي'},{q:'كم محيط في العالم؟',a:'5'},{q:'ما أبرد مدينة في العالم؟',a:'ياكوتسك'},{q:'ما أكثف دولة بالسكان؟',a:'الصين أو الهند'},{q:'ما أكبر صحراء باردة؟',a:'أنتاركتيكا'},{q:'ما أصغر قارة؟',a:'أستراليا'},{q:'كم كيلومتر محيط الأرض؟',a:'40075'},
+  ]},
+  inventions:{n:'اختراعات وإنجازات',e:'💡',c:'#f0c84a',b:'rgba(240,200,74,.15)',qs:[
+    {q:'من اخترع التلفزيون؟',a:'جون بيرد'},{q:'من اخترع المصباح؟',a:'إديسون'},{q:'من اخترع الهاتف؟',a:'غراهام بيل'},{q:'من اخترع الراديو؟',a:'ماركوني'},{q:'من اخترع الطائرة؟',a:'الأخوان رايت'},{q:'من اخترع السيارة؟',a:'كارل بنز'},{q:'من اخترع الإنترنت؟',a:'بيرنرز لي'},{q:'من اخترع الكمبيوتر؟',a:'تورينغ وآخرون'},{q:'من اخترع المروحة؟',a:'شويلر ويلر'},{q:'من اخترع التصوير الفوتوغرافي؟',a:'داغير'},{q:'من اخترع الثلاجة؟',a:'ويليام كولن'},{q:'من اخترع الغواصة؟',a:'هولاند'},{q:'من اخترع الطابعة؟',a:'غوتنبرغ'},{q:'من اخترع اللقاح؟',a:'جنر'},{q:'من اخترع المصعد؟',a:'أوتيس'},{q:'من اخترع الأسبرين؟',a:'فيليكس هوفمان'},{q:'من اخترع الميكروسكوب؟',a:'أنتوني فان ليوينهوك'},{q:'من اخترع البنسلين؟',a:'فليمنغ'},{q:'من اخترع الدراجة؟',a:'ماكميلان'},{q:'من اخترع بطارية؟',a:'فولتا'},
   ]},
 };
 const CKS=Object.keys(CATS);
@@ -582,20 +714,24 @@ function toggleAll(){
 }
 
 // ══ SOCKET ══
+let bTimer=30,bTimerInterval=null;
+
 socket.on('connect',()=>{myId=socket.id;});
 
 socket.on('players',players=>{
+  window._roomPlayers=players;
   ['bPList','jPList','dPList'].forEach(id=>{
     const el=$(id);if(!el)return;
     el.innerHTML='';
     players.forEach(p=>{
       const r=document.createElement('div');r.className='prow';
       const isMe=p.id===socket.id;
-      r.innerHTML=`<div class="pav" style="background:${isMe?'var(--gold2)':'var(--bl)'}">${isMe?'👑':'😊'}</div><div class="pn">${p.name}${isMe?' (أنت)':''}</div>${isMe&&isHost?'<div class="ph">مضيف</div>':''}`;
+      const isHost_=p.id===socket.id&&isHost;
+      const kickBtn=isHost&&!isMe?`<div onclick="kickPlayer('${p.id}')" style="font-size:11px;color:var(--rd);cursor:pointer;padding:2px 7px;background:rgba(240,40,72,.1);border-radius:6px">طرد</div>`:'';
+      r.innerHTML=`<div class="pav" style="background:${isMe?'var(--gold2)':'var(--bl)'}">${isMe?'👑':'😊'}</div><div class="pn" style="flex:1">${p.name}${isMe?' (أنت)':''}</div>${isHost_?'<div class="ph">مضيف</div>':''}${kickBtn}`;
       el.appendChild(r);
     });
   });
-  // ══ FIX SCORES: تحديث النقاط من السيرفر ══
   players.forEach(p=>{bScores[p.id]=p.score||0;});
   renderLS('bwLS');renderLS('bvLS');
 });
@@ -604,6 +740,7 @@ socket.on('ok-create',({code})=>{
   myRoom=code;$('bWCode').textContent=code;
   makeQR('bWQR',window.location.origin+'?join='+code);
   $('bStBtn').style.display='block';
+  $('bPauseBtn').style.display='block';
   go('bl-wait');
 });
 
@@ -611,15 +748,57 @@ socket.on('ok-join',({code})=>{
   myRoom=code;
   ['bWCode','jWCode','dWCode'].forEach(id=>{const e=$(id);if(e)e.textContent=code;});
   [$('bStBtn'),$('dStBtn')].forEach(b=>{if(b)b.style.display='none';});
+  $('bPauseBtn').style.display='block';
   go('bl-wait');
 });
 
 socket.on('err',m=>toast('❌ '+m));
 
-socket.on('question',({q,i,total})=>{
+socket.on('question',({q,i,total,timer})=>{
   bQs[i]=q;bIdx=i;bCorr=q.a;bMyAns='';bMyOrigAns='';bBluff='';bVIdx=-1;bPhase='init';
-  renderWriteScreen(q,i,total);go('bl-write');
+  if(timer)bTimer=timer;
+  renderWriteScreen(q,i,total);
+  startWriteTimer();
+  go('bl-write');
 });
+
+socket.on('chat',({name,msg,time,sys})=>{
+  const msgs=$('chatMsgs');if(!msgs)return;
+  const d=document.createElement('div');
+  d.style.cssText='font-size:12px;padding:5px 8px;border-radius:8px;background:'+(sys?'rgba(136,85,238,.1)':'var(--c3)');
+  d.innerHTML=sys?('<span style="color:var(--mu)">'+msg+'</span>'):('<span style="color:var(--teal);font-weight:700">'+name+'</span> <span style="color:var(--tx)">'+msg+'</span>');
+  msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
+  if($('chatPanel').style.display==='none')toast('💬 '+name+': '+msg,2000);
+});
+
+socket.on('game-paused',({by,seconds})=>{
+  $('pauseBy').textContent=by;
+  const ovl=$('pauseOvl');ovl.style.display='flex';
+  if(isHost){const rb=$('resumeBtn');if(rb)rb.style.display='block';}
+  let t=seconds;$('pauseCount').textContent=t;
+  if(window._pauseIv)clearInterval(window._pauseIv);
+  window._pauseIv=setInterval(()=>{t--;$('pauseCount').textContent=t;if(t<=0)clearInterval(window._pauseIv);},1000);
+});
+
+socket.on('game-resumed',()=>{
+  const ovl=$('pauseOvl');if(ovl)ovl.style.display='none';
+  if(window._pauseIv)clearInterval(window._pauseIv);
+  toast('▶️ استمرت اللعبة');
+});
+
+socket.on('kicked',()=>{
+  toast('🚫 تم طردك من الغرفة');
+  setTimeout(()=>go('home'),1500);
+});
+
+let pauseUsed=0;
+function doPause(){
+  if(pauseUsed>=3){toast('⚠️ استنفدت 3 إيقافات');return;}
+  pauseUsed++;
+  socket.emit('pause-game',{code:myRoom,name:myName,seconds:60});
+}
+function doResume(){socket.emit('resume-game',{code:myRoom});}
+function kickPlayer(pid){if(confirm('طرد هذا اللاعب؟'))socket.emit('kick-player',{code:myRoom,targetId:pid});}
 
 socket.on('ans-count',({done,total})=>{
   if($('bwWtCnt'))$('bwWtCnt').textContent=`أجاب ${done} من ${total}`;
@@ -674,11 +853,50 @@ function joinBluff(){
 
 function startBluff(){
   const cnt=parseInt($('bQCnt').value);
+  const timer=parseInt($('bTimer')?$('bTimer').value:30)||30;
   let pool=[];
   selCats.forEach(k=>pool.push(...CATS[k].qs.map(q=>({...q,cat:k}))));
   bQs=shuffle(pool).slice(0,cnt);
   bIdx=0;bScores={};
-  socket.emit('start',{code:myRoom,qs:bQs});
+  socket.emit('start',{code:myRoom,qs:bQs,timer});
+}
+
+function startWriteTimer(){
+  if(bTimerInterval)clearInterval(bTimerInterval);
+  let t=bTimer;
+  updWriteTimer(t);
+  bTimerInterval=setInterval(()=>{
+    t--;updWriteTimer(t);
+    if(t<=0){
+      clearInterval(bTimerInterval);
+      if($('bwForm').style.display!=='none'){
+        $('bwInp').value='لا أعرف';
+        sendAns('لا أعرف');
+      }
+    }
+  },1000);
+}
+
+function updWriteTimer(t){
+  const el=$('bwTimerNum');const circle=$('bwTimerCircle');
+  if(!el||!circle)return;
+  el.textContent=t;
+  const pct=t/bTimer*100;
+  const color=t>10?'var(--gold)':'var(--rd)';
+  circle.style.background=`conic-gradient(${color} ${pct}%,var(--c3) 0)`;
+}
+
+function toggleChat(){
+  const p=$('chatPanel');if(!p)return;
+  const showing=p.style.display==='flex';
+  p.style.display=showing?'none':'flex';
+}
+
+function sendChat(){
+  const inp=$('chatInp');
+  const msg=inp.value.trim();if(!msg)return;
+  inp.value='';
+  socket.emit('chat',{code:myRoom,name:myName,msg});
 }
 
 function restartBluff(){bIdx=0;bScores={};socket.emit('start',{code:myRoom,qs:bQs});}
@@ -722,6 +940,7 @@ function submitWrite(){
 }
 
 function sendAns(ans){
+  if(bTimerInterval)clearInterval(bTimerInterval);
   $('bwForm').style.display='none';$('bwWt').style.display='flex';
   socket.emit('answer',{code:myRoom,ans});
 }
@@ -781,9 +1000,10 @@ function renderRevealScreen(votes,ans){
     const vote=votes[id]||'—';const ok=vote===bCorr;const isMe=id===socket.id;
     const pts=isMe?myPts:(ok?1:0);
     const gotBluffed=!ok&&wrote!==bCorr&&(wrote===bMyAns||wrote===bBluff);
+    const pName=getPlayerName(id);
     const row=document.createElement('div');row.className='rrow';
     row.innerHTML=`
-      <div style="font-size:11px;color:var(--mu);margin-bottom:3px">👤 ${isMe?myName:'لاعب'}</div>
+      <div style="font-size:11px;color:var(--mu);margin-bottom:3px">👤 ${pName}</div>
       <div style="font-size:14px;font-weight:700">كتب: <b>${wrote}</b></div>
       <div style="font-size:12px;color:var(--mu);margin-top:3px">صوّت: <b style="color:${ok?'var(--gr)':'var(--rd)'}">${vote}</b></div>
       <div style="font-size:12px;font-weight:800;margin-top:4px;color:${pts>0?'var(--gr)':pts<0?'var(--rd)':'var(--mu)'}">${pts>0?'⭐ +'+pts:gotBluffed?'😅 انخدع':'—'}</div>`;
@@ -803,12 +1023,19 @@ function handleReveal(){
   else if(isHost){socket.emit('next',{code:myRoom,scores:[]});}
 }
 
-// ══ FIX: عرض النقاط بشكل صحيح ══
+// ══ FIX: عرض أسماء اللاعبين الحقيقية ══
+function getPlayerName(sid){
+  if(sid===socket.id)return myName;
+  const players=window._roomPlayers||[];
+  const p=players.find(x=>x.id===sid);
+  return p?p.name:'لاعب';
+}
+
 function renderLS(id){
   const el=$(id);if(!el)return;el.innerHTML='';
   Object.entries(bScores).forEach(([sid,pts])=>{
     const d=document.createElement('div');d.className='lsp';
-    d.innerHTML=`<span class="lsn">${sid===socket.id?myName:'لاعب'}</span><span class="lspt">${Math.max(0,pts)}⭐</span>`;
+    d.innerHTML=`<span class="lsn">${getPlayerName(sid)}</span><span class="lspt">${Math.max(0,pts)}⭐</span>`;
     el.appendChild(d);
   });
 }
@@ -951,29 +1178,3 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 </body>
 </html>
-<script>
-if(typeof CATS!=='undefined'){
-CATS.flags={n:'Flags',e:'🏳️',c:'#f02848',b:'rgba(240,40,72,.15)',qs:[
-{q:'What flag?',a:'France',img:'https://flagcdn.com/w160/fr.png'},
-{q:'What flag?',a:'Germany',img:'https://flagcdn.com/w160/de.png'},
-{q:'What flag?',a:'Italy',img:'https://flagcdn.com/w160/it.png'},
-{q:'What flag?',a:'Spain',img:'https://flagcdn.com/w160/es.png'},
-{q:'What flag?',a:'Brazil',img:'https://flagcdn.com/w160/br.png'},
-{q:'What flag?',a:'Japan',img:'https://flagcdn.com/w160/jp.png'},
-{q:'What flag?',a:'Algeria',img:'https://flagcdn.com/w160/dz.png'},
-{q:'What flag?',a:'Morocco',img:'https://flagcdn.com/w160/ma.png'},
-{q:'What flag?',a:'Egypt',img:'https://flagcdn.com/w160/eg.png'},
-{q:'What flag?',a:'Saudi Arabia',img:'https://flagcdn.com/w160/sa.png'},
-{q:'What flag?',a:'Turkey',img:'https://flagcdn.com/w160/tr.png'},
-{q:'What flag?',a:'Portugal',img:'https://flagcdn.com/w160/pt.png'},
-{q:'What flag?',a:'Argentina',img:'https://flagcdn.com/w160/ar.png'},
-{q:'What flag?',a:'Australia',img:'https://flagcdn.com/w160/au.png'},
-{q:'What flag?',a:'Canada',img:'https://flagcdn.com/w160/ca.png'},
-{q:'What flag?',a:'Mexico',img:'https://flagcdn.com/w160/mx.png'},
-{q:'What flag?',a:'Netherlands',img:'https://flagcdn.com/w160/nl.png'},
-{q:'What flag?',a:'Belgium',img:'https://flagcdn.com/w160/be.png'},
-{q:'What flag?',a:'Qatar',img:'https://flagcdn.com/w160/qa.png'},
-{q:'What flag?',a:'UAE',img:'https://flagcdn.com/w160/ae.png'}
-]};
-}
-</script>
