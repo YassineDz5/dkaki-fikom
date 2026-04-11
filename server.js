@@ -9,7 +9,7 @@ const rooms={};
 
 io.on('connection',socket=>{
   socket.on('create-room',({code,name})=>{
-    rooms[code]={host:socket.id,players:[{id:socket.id,name,score:0}],phase:'wait',paused:false};
+    rooms[code]={host:socket.id,players:[{id:socket.id,name,score:0}],ans:{},votes:{},paused:false};
     socket.join(code);
     socket.emit('ok-create',{code});
     io.to(code).emit('players',rooms[code].players);
@@ -23,35 +23,6 @@ io.on('connection',socket=>{
     socket.join(code);
     io.to(code).emit('players',r.players);
     socket.emit('ok-join',{code});
-  });
-
-  socket.on('kick-player',({code,targetId})=>{
-    const r=rooms[code];
-    if(!r||r.host!==socket.id)return;
-    const target=r.players.find(p=>p.id===targetId);
-    if(!target)return;
-    r.players=r.players.filter(p=>p.id!==targetId);
-    io.to(targetId).emit('kicked','تم طردك من الغرفة');
-    io.to(code).emit('players',r.players);
-    io.to(code).emit('chat',{name:'النظام',msg:`تم طرد ${target.name}`,sys:true});
-  });
-
-  socket.on('pause-game',({code,name})=>{
-    const r=rooms[code];if(!r)return;
-    if(r.paused)return;
-    r.paused=true;
-    io.to(code).emit('game-paused',{by:name,seconds:60});
-    r.pauseTimer=setTimeout(()=>{
-      r.paused=false;
-      io.to(code).emit('game-resumed');
-    },60000);
-  });
-
-  socket.on('resume-game',({code})=>{
-    const r=rooms[code];if(!r)return;
-    if(r.pauseTimer)clearTimeout(r.pauseTimer);
-    r.paused=false;
-    io.to(code).emit('game-resumed');
   });
 
   socket.on('start',({code,qs,timer})=>{
@@ -79,9 +50,8 @@ io.on('connection',socket=>{
     }
   });
 
-  socket.on('next',({code,scores})=>{
+  socket.on('next',({code})=>{
     const r=rooms[code];if(!r||r.host!==socket.id)return;
-    if(scores)scores.forEach(({id,pts})=>{const p=r.players.find(x=>x.id===id);if(p)p.score+=pts;});
     r.qi++;r.ans={};
     if(r.qi>=r.qs.length)io.to(code).emit('final',r.players);
     else io.to(code).emit('question',{q:r.qs[r.qi],i:r.qi,total:r.qs.length,timer:r.timer});
@@ -93,8 +63,33 @@ io.on('connection',socket=>{
     io.to(code).emit('scores-update',r.players);
   });
 
+  socket.on('pause-game',({code,name,seconds})=>{
+    const r=rooms[code];if(!r||r.paused)return;
+    r.paused=true;
+    io.to(code).emit('game-paused',{by:name,seconds:seconds||60});
+    r.pauseTimer=setTimeout(()=>{
+      r.paused=false;
+      io.to(code).emit('game-resumed');
+    },(seconds||60)*1000);
+  });
+
+  socket.on('resume-game',({code})=>{
+    const r=rooms[code];if(!r)return;
+    if(r.pauseTimer)clearTimeout(r.pauseTimer);
+    r.paused=false;
+    io.to(code).emit('game-resumed');
+  });
+
+  socket.on('kick-player',({code,targetId})=>{
+    const r=rooms[code];
+    if(!r||r.host!==socket.id)return;
+    io.to(targetId).emit('kicked');
+    r.players=r.players.filter(p=>p.id!==targetId);
+    io.to(code).emit('players',r.players);
+  });
+
   socket.on('chat',({code,name,msg})=>{
-    io.to(code).emit('chat',{name,msg,time:new Date().toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'})});
+    io.to(code).emit('chat',{name,msg});
   });
 
   socket.on('disconnect',()=>{
@@ -106,11 +101,11 @@ io.on('connection',socket=>{
       else{
         if(r.host===socket.id)r.host=r.players[0].id;
         io.to(code).emit('players',r.players);
-        io.to(code).emit('chat',{name:'النظام',msg:`${pl.name} غادر اللعبة`,sys:true});
+        io.to(code).emit('chat',{name:'النظام',msg:pl.name+' غادر',sys:true});
       }
     });
   });
 });
 
 const PORT=process.env.PORT||3000;
-server.listen(PORT,()=>console.log('✅ شغال على port '+PORT));
+server.listen(PORT,()=>console.log('OK '+PORT));
