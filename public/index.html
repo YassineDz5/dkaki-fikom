@@ -1067,7 +1067,7 @@ function sendChat(){
 
 function restartBluff(){bIdx=0;bScores={};socket.emit('start',{code:myRoom,qs:bQs});}
 
-function renderWriteScreen(q,i,total){
+function renderWriteScreen(q,i,total){toast('🔍 سؤال: '+(q?q.q:'فارغ'),4000);
   const cat=CATS[q.cat]||Object.values(CATS)[0];
   $('bwN').textContent=i+1;$('bwT').textContent=total;
   $('bwMyPts').textContent=(bScores[socket.id]||0)+' ⭐';
