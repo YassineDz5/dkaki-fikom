@@ -18,7 +18,6 @@ io.on('connection',socket=>{
   socket.on('join-room',({code,name})=>{
     const r=rooms[code];
     if(!r){socket.emit('err','الغرفة غير موجودة');return;}
-    if(r.players.length>=8){socket.emit('err','الغرفة ممتلئة');return;}
     r.players.push({id:socket.id,name,score:0});
     socket.join(code);
     io.to(code).emit('players',r.players);
@@ -27,7 +26,7 @@ io.on('connection',socket=>{
 
   socket.on('start',({code,qs,timer})=>{
     const r=rooms[code];
-    if(!r||r.host!==socket.id)return;
+    if(!r)return;
     r.qs=qs;r.qi=0;r.ans={};r.votes={};r.timer=timer||30;
     io.to(code).emit('question',{q:r.qs[0],i:0,total:r.qs.length,timer:r.timer});
   });
@@ -51,7 +50,7 @@ io.on('connection',socket=>{
   });
 
   socket.on('next',({code})=>{
-    const r=rooms[code];if(!r||r.host!==socket.id)return;
+    const r=rooms[code];if(!r)return;
     r.qi++;r.ans={};
     if(r.qi>=r.qs.length)io.to(code).emit('final',r.players);
     else io.to(code).emit('question',{q:r.qs[r.qi],i:r.qi,total:r.qs.length,timer:r.timer});
@@ -67,10 +66,7 @@ io.on('connection',socket=>{
     const r=rooms[code];if(!r||r.paused)return;
     r.paused=true;
     io.to(code).emit('game-paused',{by:name,seconds:seconds||60});
-    r.pauseTimer=setTimeout(()=>{
-      r.paused=false;
-      io.to(code).emit('game-resumed');
-    },(seconds||60)*1000);
+    r.pauseTimer=setTimeout(()=>{r.paused=false;io.to(code).emit('game-resumed');},(seconds||60)*1000);
   });
 
   socket.on('resume-game',({code})=>{
@@ -81,8 +77,7 @@ io.on('connection',socket=>{
   });
 
   socket.on('kick-player',({code,targetId})=>{
-    const r=rooms[code];
-    if(!r||r.host!==socket.id)return;
+    const r=rooms[code];if(!r)return;
     io.to(targetId).emit('kicked');
     r.players=r.players.filter(p=>p.id!==targetId);
     io.to(code).emit('players',r.players);
@@ -101,7 +96,6 @@ io.on('connection',socket=>{
       else{
         if(r.host===socket.id)r.host=r.players[0].id;
         io.to(code).emit('players',r.players);
-        io.to(code).emit('chat',{name:'النظام',msg:pl.name+' غادر',sys:true});
       }
     });
   });
