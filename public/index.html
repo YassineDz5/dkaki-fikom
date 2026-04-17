@@ -914,7 +914,7 @@ socket.on('ok-join',({code})=>{
 
 socket.on('err',m=>toast('❌ '+m));
 
-socket.on('question',({q,i,total,timer})=>{
+socket.on('question',({q,i,total,timer})=>{toast('📥 سؤال: '+(q?q.q:'فارغ'),4000);
   bQs[i]=q;bIdx=i;bCorr=q.a;bMyAns='';bMyOrigAns='';bBluff='';bVIdx=-1;bPhase='init';
   if(timer)bTimer=timer;
   renderWriteScreen(q,i,total);
