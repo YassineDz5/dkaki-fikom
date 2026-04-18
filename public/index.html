@@ -9,15 +9,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0e0e1a;--c2:#1e1e30;--c3:#26263c;--c4:#2e2e48;
-  --br:#333355;--br2:#4444aa;
-  --gold:#f0c84a;--gold2:#c8a020;
-  --teal:#0fd4b4;--teal2:#0aaa90;
-  --pink:#e83888;--pink2:#b82868;
-  --pu:#8855ee;--pu2:#6633cc;
-  --gr:#20cc60;--gr2:#18a048;
-  --rd:#f02848;--bl:#3888f0;
-  --tx:#eeeeff;--mu:#7878aa;
+  --bg:#080812;--c2:#12121f;--c3:#1a1a2e;--c4:#222238;
+  --br:#2a2a4a;--br2:#5555cc;
+  --gold:#ffcc00;--gold2:#cc9900;
+  --teal:#00e5cc;--teal2:#00b3a0;
+  --pink:#ff3399;--pink2:#cc0077;
+  --pu:#9966ff;--pu2:#7744dd;
+  --gr:#00dd77;--gr2:#00aa55;
+  --rd:#ff2255;--bl:#4499ff;
+  --tx:#f0f0ff;--mu:#6666aa;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 html,body{height:100%;background:var(--bg);color:var(--tx);font-family:'Tajawal',sans-serif;overflow:hidden}
@@ -27,11 +27,11 @@ html,body{height:100%;background:var(--bg);color:var(--tx);font-family:'Tajawal'
 /* AD BANNER */
 .ad-banner{background:var(--c3);border:1px solid var(--br);border-radius:10px;padding:8px 12px;margin:6px 14px;text-align:center;font-size:11px;color:var(--mu);flex-shrink:0;min-height:50px;display:flex;align-items:center;justify-content:center}
 
-#home{background:radial-gradient(ellipse 130% 50% at 50% 0%,rgba(136,85,238,.2),transparent),radial-gradient(ellipse 80% 40% at 90% 100%,rgba(15,212,180,.1),transparent),var(--bg);align-items:center;justify-content:space-between;padding:36px 20px 20px;min-height:100vh}
+#home{background:radial-gradient(ellipse 150% 60% at 50% -10%,rgba(153,102,255,.35),transparent),radial-gradient(ellipse 100% 50% at 100% 110%,rgba(0,229,204,.15),transparent),var(--bg);align-items:center;justify-content:space-between;padding:36px 20px 20px;min-height:100vh}
 .yb-logo{display:flex;align-items:center;gap:10px;align-self:flex-start}
-.yb-ico{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--pu),var(--teal));display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:900;color:#fff;font-family:serif;box-shadow:0 0 20px rgba(136,85,238,.3)}
+.yb-ico{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--pu),var(--pink));display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:900;color:#fff;font-family:serif;box-shadow:0 0 24px rgba(153,102,255,.5)}
 .home-mid{display:flex;flex-direction:column;align-items:center;gap:16px;flex:1;justify-content:center;padding:12px 0;width:100%}
-.game-title{font-size:42px;font-weight:900;text-align:center;letter-spacing:-2px;background:linear-gradient(135deg,#fff 20%,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.game-title{font-size:42px;font-weight:900;text-align:center;letter-spacing:-2px;background:linear-gradient(135deg,#fff 10%,var(--gold) 50%,var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hcard{border-radius:18px;padding:17px 18px;cursor:pointer;display:flex;align-items:center;gap:13px;border:1px solid transparent;transition:transform .12s;width:100%;position:relative}
 .hcard:active{transform:scale(.96)}
 .hcard.c1{background:rgba(240,200,74,.08);border-color:rgba(240,200,74,.2)}
@@ -914,12 +914,15 @@ socket.on('ok-join',({code})=>{
 
 socket.on('err',m=>toast('❌ '+m));
 
-socket.on('question',({q,i,total,timer})=>{toast('📥 سؤال: '+(q?q.q:'فارغ'),4000);
-  bQs[i]=q;bIdx=i;bCorr=q.a;bMyAns='';bMyOrigAns='';bBluff='';bVIdx=-1;bPhase='init';
+socket.on('question',({q,i,total,timer})=>{
+  bQs[i]=q;bIdx=i;bCorr=q&&q.a?q.a:'';
+  bMyAns='';bMyOrigAns='';bBluff='';bVIdx=-1;bPhase='init';
   if(timer)bTimer=timer;
-  renderWriteScreen(q,i,total);
-  startWriteTimer();
   go('bl-write');
+  setTimeout(()=>{
+    try{renderWriteScreen(q,i,total);}catch(e){toast('خطأ: '+e.message,4000);}
+    try{startWriteTimer();}catch(e){}
+  },50);
 });
 
 socket.on('chat',({name,msg,time,sys})=>{
@@ -1024,7 +1027,7 @@ function startBluff(){
   selCats.forEach(k=>pool.push(...CATS[k].qs.map(q=>({...q,cat:k}))));
   bQs=shuffle(pool).slice(0,cnt);
   bIdx=0;bScores={};
-  socket.emit('start',{code:myRoom,qs:bQs,timer});toast('📤 أُرسل start: '+myRoom,3000);
+  socket.emit('start',{code:myRoom,qs:bQs,timer});
 }
 
 function startWriteTimer(){
@@ -1067,7 +1070,7 @@ function sendChat(){
 
 function restartBluff(){bIdx=0;bScores={};socket.emit('start',{code:myRoom,qs:bQs});}
 
-function renderWriteScreen(q,i,total){toast('🔍 سؤال: '+(q?q.q:'فارغ'),4000);
+function renderWriteScreen(q,i,total){
   const cat=CATS[q.cat]||Object.values(CATS)[0];
   $('bwN').textContent=i+1;$('bwT').textContent=total;
   $('bwMyPts').textContent=(bScores[socket.id]||0)+' ⭐';
