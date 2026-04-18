@@ -28,7 +28,11 @@ io.on('connection',socket=>{
     const r=rooms[code];
     if(!r)return;
     r.qs=qs;r.qi=0;r.ans={};r.votes={};r.timer=timer||30;
-    io.to(code).emit('question',{q:r.qs[0],i:0,total:r.qs.length,timer:r.timer});
+    // أعد الانضمام للغرفة لضمان الاستقبال
+    socket.join(code);
+    // أرسل للغرفة كلها + مباشرة للمرسل
+    const qData={q:r.qs[0],i:0,total:r.qs.length,timer:r.timer};
+    io.to(code).emit('question',qData);
   });
 
   socket.on('answer',({code,ans})=>{
