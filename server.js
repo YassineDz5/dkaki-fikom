@@ -32,7 +32,7 @@ io.on('connection',socket=>{
     socket.join(code);
     // أرسل للغرفة كلها + مباشرة للمرسل
     const qData={q:r.qs[0],i:0,total:r.qs.length,timer:r.timer};
-    io.to(code).emit('question',qData);
+    io.to(code).emit("question",qData);socket.emit("question",qData);
   });
 
   socket.on('answer',({code,ans})=>{
