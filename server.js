@@ -3,7 +3,7 @@ const http=require('http');
 const{Server}=require('socket.io');
 const app=express();
 const server=http.createServer(app);
-const io=new Server(server,{cors:{origin:'*'},pingTimeout:60000,pingInterval:25000});
+const io=new Server(server,{cors:{origin:'*'}});
 app.use(express.static('public'));
 const rooms={};
 
@@ -26,18 +26,14 @@ io.on('connection',socket=>{
     io.to(code).emit('players',r.players);
   });
 
-  socket.on('rejoin',({code,name})=>{
-    const r=rooms[code];if(!r)return;
-    const p=r.players.find(x=>x.name===name);
-    if(p)p.id=socket.id;
-    socket.join(code);
-  });
-
-  socket.on('start',({code,qs,timer})=>{
+  socket.on('start',({code,qs,timer,name})=>{
+    // إنشاء الغرفة إذا ضاعت
+    if(!rooms[code]){
+      rooms[code]={players:[{id:socket.id,name:name||'مضيف',score:0}],ans:{},votes:{},paused:false};
+      socket.join(code);
+    }
     const r=rooms[code];
-    if(!r){console.log('no room:'+code);return;}
     r.qs=qs;r.qi=0;r.ans={};r.votes={};r.timer=timer||30;
-    console.log('start room:'+code+' players:'+r.players.length);
     io.to(code).emit('question',{q:r.qs[0],i:0,total:r.qs.length,timer:r.timer});
   });
 

@@ -1027,7 +1027,7 @@ function startBluff(){
   selCats.forEach(k=>pool.push(...CATS[k].qs.map(q=>({...q,cat:k}))));
   bQs=shuffle(pool).slice(0,cnt);
   bIdx=0;bScores={};
-  socket.emit('start',{code:myRoom,qs:bQs,timer});
+  socket.emit('start',{code:myRoom,qs:bQs,timer,name:myName});
 }
 
 function startWriteTimer(){
