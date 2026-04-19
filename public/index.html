@@ -876,7 +876,7 @@ function toggleAll(){
 // ══ SOCKET ══
 let bTimer=30,bTimerInterval=null;
 
-socket.on('connect',()=>{myId=socket.id;});
+socket.on('connect',()=>{myId=socket.id;if(myRoom&&myName)socket.emit('rejoin',{code:myRoom,name:myName});});
 
 socket.on('players',players=>{
   window._roomPlayers=players;
