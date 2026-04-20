@@ -34,7 +34,7 @@ io.on('connection',socket=>{
     }
     const r=rooms[code];
     r.qs=qs;r.qi=0;r.ans={};r.votes={};r.timer=timer||30;
-    io.to(code).emit('question',{q:r.qs[0],i:0,total:r.qs.length,timer:r.timer});
+    socket.emit('question',{q:r.qs[0],i:0,total:r.qs.length,timer:r.timer});io.to(code).emit('question',{q:r.qs[0],i:0,total:r.qs.length,timer:r.timer});
   });
 
   socket.on('answer',({code,ans})=>{
